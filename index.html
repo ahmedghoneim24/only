@@ -19,14 +19,20 @@
         }
 
         .container {
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; height: 100vh; padding: 20px; text-align: center;
+            display: flex; flex-direction: column; 
+            justify-content: flex-start; 
+            align-items: center; 
+            height: 100vh; 
+            padding: 20px; 
+            text-align: center;
+            padding-top: 10vh; /* رفع المحتوى للأعلى */
         }
 
         .welcome-msg {
             font-family: 'Cairo', sans-serif;
             font-size: 3.2rem; font-weight: 700;
             position: absolute;
+            top: 40%;
             animation: fadeOut 2.2s forwards;
             text-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
@@ -38,20 +44,20 @@
             100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
         }
 
-        /* الجزء الجديد للاسم فوق الروابط */
         .header-name {
             font-family: 'Dancing Script', cursive;
             font-size: 2.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             opacity: 0;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             animation: fadeSlideIn 1.2s ease-out 2.2s forwards;
         }
 
         .verify-badge {
-            color: #1DA1F2; /* لون علامة التوثيق */
+            color: #1DA1F2; 
             font-size: 1.2rem;
         }
 
@@ -62,13 +68,13 @@
 
         .main-content {
             width: 100%; max-width: 340px;
-            opacity: 0; animation: fadeIn 1s ease-in 2s forwards;
+            opacity: 0; animation: fadeIn 1s ease-in 2.2s forwards;
             display: flex; flex-direction: column; align-items: center;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .links-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .links-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
         .btn {
             background: rgba(255, 255, 255, 0.07);
@@ -81,23 +87,38 @@
             transition: 0.3s;
         }
 
-        /* ألوان الأيقونات الأصلية */
         .fa-facebook { color: #1877F2; }
         .fa-instagram { color: #E4405F; }
-        .fa-tiktok { color: #00f2ea; text-shadow: 2px 0 #ff0050; } /* تأثير تيك توك الشهير */
+        .fa-tiktok { color: #00f2ea; text-shadow: 2px 0 #ff0050; }
         .fa-telegram { color: #24A1DE; }
         .fa-envelope { color: #EA4335; }
 
-        .btn i { font-size: 1.2rem; width: 20px; }
         .btn:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.12); }
 
-        .footer { margin-top: 25px; }
+        .footer { margin-top: 30px; }
         .wish { font-family: sans-serif; font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px; }
 
+        /* تنسيق العداد والحقوق بخط صغير في أسفل اليمين */
+        .bottom-right-info {
+            position: fixed;
+            bottom: 12px;
+            right: 15px;
+            text-align: right;
+            direction: rtl;
+            line-height: 1.4;
+        }
+
+        .counter-text {
+            font-family: 'Cairo', sans-serif;
+            font-size: 10px; /* خط صغير جداً وناعم */
+            color: rgba(255, 255, 255, 0.6);
+            display: block;
+        }
+
         .copyright {
-            position: fixed; bottom: 10px; width: 100%;
-            font-family: 'Cairo', sans-serif; font-size: 0.65rem;
-            opacity: 0.4; text-align: center;
+            font-family: 'Cairo', sans-serif; 
+            font-size: 9px; /* أصغر قليلاً للحقوق */
+            opacity: 0.3;
         }
     </style>
 </head>
@@ -116,19 +137,15 @@
                 <a href="https://www.facebook.com/share/18k8Qf8y4P/" target="_blank" class="btn">
                     <i class="fab fa-facebook"></i> Facebook
                 </a>
-
                 <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" target="_blank" class="btn">
                     <i class="fab fa-instagram"></i> Instagram
                 </a>
-
                 <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn">
                     <i class="fab fa-tiktok"></i> TikTok
                 </a>
-
                 <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn">
                     <i class="fab fa-telegram"></i> Telegram
                 </a>
-
                 <a href="mailto:qwrtreu1245@gmail.com" class="btn">
                     <i class="fas fa-envelope"></i> Gmail
                 </a>
@@ -140,9 +157,38 @@
         </div>
     </div>
 
-    <div class="copyright">
-        جميع الحقوق محفوظة مطور أحمد 
+    <div class="bottom-right-info">
+        <span class="counter-text">عدد الزيارات أكثر من : <span id="count-up">0</span></span>
+        <div class="copyright">
+            جميع الحقوق محفوظة لمطور الموقع أحمد غنيم
+        </div>
     </div>
+
+    <script>
+        function animateCounter(targetValue, duration) {
+            const countElement = document.getElementById('count-up');
+            let startTime = null;
+
+            function updateCount(currentTime) {
+                if (!startTime) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const currentNumber = Math.floor(progress * targetValue);
+                countElement.innerText = currentNumber.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                }
+            }
+            
+            setTimeout(() => {
+                requestAnimationFrame(updateCount);
+            }, 2200);
+        }
+
+        window.onload = function() {
+            animateCounter(15609, 4000);
+        };
+    </script>
 
 </body>
 </html>
