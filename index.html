@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ahmed Ghoneim</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body, html {
+            height: 100%; width: 100%; overflow: hidden;
+            font-family: 'Cairo', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #1a0000 0%, #3d0303 50%, #1a0000 100%);
+        }
+
+        .container {
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; height: 100vh; padding: 20px; text-align: center;
+        }
+
+        .welcome-msg {
+            font-family: 'Cairo', sans-serif;
+            font-size: 3.2rem; font-weight: 700;
+            position: absolute;
+            animation: fadeOut 2.2s forwards;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 0; transform: scale(0.9); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
+        }
+
+        .main-content {
+            width: 100%; max-width: 340px;
+            opacity: 0; animation: fadeIn 1s ease-in 2s forwards;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .links-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            color: white; padding: 14px; border-radius: 18px;
+            text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn i { font-size: 1rem; width: 20px; }
+
+        .btn:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.12); }
+
+        .footer { margin-top: 25px; }
+
+        .name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .wish {
+            font-family: sans-serif;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+
+        /* --- جملة الحقوق تحت خالص بخط أصغر --- */
+        .copyright {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.65rem;
+            opacity: 0.4;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="welcome-msg">مرحباً</div>
+        
+        <div class="main-content">
+            <div class="links-container">
+                <a href="https://www.facebook.com/share/18k8Qf8y4P/" target="_blank" class="btn">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" target="_blank" class="btn">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+
+                <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+
+                <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn">
+                    <i class="fab fa-telegram"></i> Telegram
+                </a>
+
+                <a href="mailto:qwrtreu1245@gmail.com" class="btn">
+                    <i class="fas fa-envelope"></i> Gmail
+                </a>
+            </div>
+
+            <div class="footer">
+                <div class="name">Ahmed Ghoneim only</div>
+                <div class="wish">Have a nice day 😊</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+        جميع الحقوق محفوظة لمطور الموقع أحمد غنيم
+    </div>
+
+</body>
+</html>
