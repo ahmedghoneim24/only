@@ -25,7 +25,7 @@
             height: 100vh; 
             padding: 20px; 
             text-align: center;
-            padding-top: 10vh; /* رفع المحتوى للأعلى */
+            padding-top: 10vh;
         }
 
         .welcome-msg {
@@ -44,81 +44,107 @@
             100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
         }
 
+        /* تنسيق الاسم وعلامة التوثيق */
+        .header-name-wrapper {
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px; opacity: 0; 
+            transform: translateY(30px);
+            animation: wrapperSlideUp 1.5s ease-out 2.3s forwards;
+        }
+
+        @keyframes wrapperSlideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .header-name {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 25px;
-            opacity: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            animation: fadeSlideIn 1.2s ease-out 2.2s forwards;
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: white;
         }
 
         .verify-badge {
-            color: #1DA1F2; 
-            font-size: 1.2rem;
+            color: #1DA1F2; font-size: 1.2rem; margin-left: 12px;
+            opacity: 1; transform: scale(1); 
         }
 
-        @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* الحاوية الأساسية تظهر بعد الترحيب */
         .main-content {
             width: 100%; max-width: 340px;
-            opacity: 0; animation: fadeIn 1s ease-in 2.2s forwards;
             display: flex; flex-direction: column; align-items: center;
+            opacity: 0;
+            animation: fadeInAll 0.5s ease-in 2.2s forwards;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInAll { to { opacity: 1; } }
 
         .links-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
+        /* --- الأزرار وتأثير الدخول الديناميكي الجديد --- */
         .btn {
             background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px); 
             color: white; padding: 14px; border-radius: 18px;
             text-decoration: none; font-weight: 600; font-size: 0.9rem;
             display: flex; align-items: center; justify-content: center; gap: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: 0.3s;
+            transition: background 0.3s, transform 0.1s;
+            
+            /* الأزرار تبدأ مخفية عشان تدخل بالأنميشن */
+            opacity: 0; 
         }
 
-        .fa-facebook { color: #1877F2; }
-        .fa-instagram { color: #E4405F; }
-        .fa-tiktok { color: #00f2ea; text-shadow: 2px 0 #ff0050; }
-        .fa-telegram { color: #24A1DE; }
-        .fa-envelope { color: #EA4335; }
+        /* توقيت دخول الأزرار ورا بعض (تتابع) */
+        .links-container .btn:nth-child(1) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.3s forwards; }
+        .links-container .btn:nth-child(2) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.45s forwards; }
+        .links-container .btn:nth-child(3) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.6s forwards; }
+        .links-container .btn:nth-child(4) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.75s forwards; }
+        .links-container .btn:nth-child(5) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.9s forwards; }
 
-        .btn:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.12); }
+        /* أنميشن الضباب الأبيض والتصغير السلس */
+        @keyframes popGlass {
+            0% {
+                opacity: 0;
+                transform: scale(1.15); /* حجم أكبر */
+                background: rgba(255, 255, 255, 0.4); /* لون أبيض قوي */
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* ضباب مضيء */
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1); /* الحجم الطبيعي */
+                background: rgba(255, 255, 255, 0.07); /* الشكل الزجاجي الطبيعي */
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* الظل الطبيعي */
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        /* تأثير الضغطة مع important للحفاظ عليها بعد الأنميشن */
+        .btn:active { 
+            transform: scale(0.95) !important; 
+            background: rgba(255, 255, 255, 0.15) !important; 
+        }
+        /* ----------------------------------------------- */
 
         .footer { margin-top: 30px; }
         .wish { font-family: sans-serif; font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px; }
 
-        /* تنسيق العداد والحقوق بخط صغير في أسفل اليمين */
         .bottom-right-info {
             position: fixed;
             bottom: 12px;
             right: 15px;
             text-align: right;
             direction: rtl;
-            line-height: 1.4;
+            opacity: 0;
+            animation: fadeInAll 0.5s ease-in 2.2s forwards;
         }
 
         .counter-text {
-            font-family: 'Cairo', sans-serif;
-            font-size: 10px; /* خط صغير جداً وناعم */
-            color: rgba(255, 255, 255, 0.6);
-            display: block;
+            font-family: 'Cairo', sans-serif; font-size: 10px; 
+            color: rgba(255, 255, 255, 0.6); display: block; margin-bottom: 2px;
         }
 
-        .copyright {
-            font-family: 'Cairo', sans-serif; 
-            font-size: 9px; /* أصغر قليلاً للحقوق */
-            opacity: 0.3;
+        .copyright-bottom {
+            font-family: 'Cairo', sans-serif; font-size: 8px; opacity: 0.2;
         }
     </style>
 </head>
@@ -127,41 +153,39 @@
     <div class="container">
         <div class="welcome-msg">مرحباً</div>
         
-        <div class="main-content">
-            <div class="header-name">
-                Ahmed Ghoneim
-                <i class="fas fa-check-circle verify-badge"></i>
-            </div>
+        <div class="header-name-wrapper">
+            <div class="header-name">Ahmed Ghoneim</div>
+            <i class="fas fa-check-circle verify-badge"></i>
+        </div>
 
+        <div class="main-content">
             <div class="links-container">
                 <a href="https://www.facebook.com/share/18k8Qf8y4P/" target="_blank" class="btn">
-                    <i class="fab fa-facebook"></i> Facebook
+                    <i class="fab fa-facebook" style="color: #1877F2;"></i> Facebook
                 </a>
                 <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" target="_blank" class="btn">
-                    <i class="fab fa-instagram"></i> Instagram
+                    <i class="fab fa-instagram" style="color: #E4405F;"></i> Instagram
                 </a>
                 <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn">
-                    <i class="fab fa-tiktok"></i> TikTok
+                    <i class="fab fa-tiktok" style="color: #00f2ea;"></i> TikTok
                 </a>
                 <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn">
-                    <i class="fab fa-telegram"></i> Telegram
+                    <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
                 </a>
                 <a href="mailto:qwrtreu1245@gmail.com" class="btn">
-                    <i class="fas fa-envelope"></i> Gmail
+                    <i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail
                 </a>
             </div>
 
             <div class="footer">
-                <div class="wish">Have a nice day 😊</div>
+                <div class="wish">Have a nice day *</div>
             </div>
         </div>
     </div>
 
     <div class="bottom-right-info">
         <span class="counter-text">عدد الزيارات أكثر من : <span id="count-up">0</span></span>
-        <div class="copyright">
-            جميع الحقوق محفوظة للمطور أَحَمد 
-        </div>
+        <div class="copyright-bottom">جميع الحقوق محفوظه للمطور أحمد</div>
     </div>
 
     <script>
@@ -174,10 +198,7 @@
                 const progress = Math.min((currentTime - startTime) / duration, 1);
                 const currentNumber = Math.floor(progress * targetValue);
                 countElement.innerText = currentNumber.toLocaleString();
-                
-                if (progress < 1) {
-                    requestAnimationFrame(updateCount);
-                }
+                if (progress < 1) requestAnimationFrame(updateCount);
             }
             
             setTimeout(() => {
@@ -186,9 +207,8 @@
         }
 
         window.onload = function() {
-            animateCounter(15609, 4000);
+            animateCounter(15629, 2000);
         };
     </script>
-
 </body>
 </html>
