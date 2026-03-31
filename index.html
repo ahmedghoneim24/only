@@ -156,10 +156,11 @@
         .bottom-right-info {
             position: fixed; bottom: 15px; right: 15px;
             text-align: right; direction: rtl; opacity: 0;
+            /* حافظنا على الأنيميشن لكي تظهر الجملة بانسيباية وسلاسة */
             animation: fadeInAll 0.5s ease-in 2.6s forwards;
             z-index: 10;
         }
-        .counter-text { font-family: 'Cairo', sans-serif; font-size: 10px; color: var(--text-color); opacity: 0.7; font-weight: 600; }
+        .counter-text { font-family: 'Cairo', sans-serif; font-size: 8px; color: var(--text-color); opacity: 0.7; font-weight: 600; }
         .copyright-bottom { font-family: 'Cairo', sans-serif; font-size: 8px; color: var(--text-color); opacity: 0.4; margin-top: 2px; }
 
         /* تعديل أيقونة التيك توك هنا */
@@ -214,12 +215,12 @@
                 <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn"><i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram</a>
                 <a href="mailto:qwrtreu1245@gmail.com" class="btn"><i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail</a>
             </div>
-            <div class="wish">Have a nice day</div>
+            <div class="wish">Have a nice day 😊</div>
         </div>
     </div>
 
     <div class="bottom-right-info">
-        <span class="counter-text">عدد الزيارات أكثر من : <span id="count-up">0</span></span>
+        <span class="counter-text">عدد الزيارات : <span>+20 ألف</span></span>
         <div class="copyright-bottom">جميع الحقوق محفوظة للمطور أحمد غنيم</div>
     </div>
 
@@ -237,9 +238,7 @@
             requestAnimationFrame(updateCount);
         }
 
-        window.onload = () => {
-            setTimeout(() => animateCounter('count-up', 15779, 3000), 2600);
-        };
+        // تم إزالة دالة استدعاء العداد لعدد الزيارات عند تحميل الصفحة
 
         const settingsBtn = document.getElementById('settingsBtn');
         const settingsPanel = document.getElementById('settingsPanel');
