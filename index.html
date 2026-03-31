@@ -93,21 +93,20 @@
         }
         .overlay.active { opacity: 1; visibility: visible; }
 
-        /* التعديلات الجديدة على لوحة الإعدادات لتنتفخ من الترس */
         .settings-panel {
             position: fixed; top: 20px; left: 20px;
             width: 270px; background: var(--panel-bg); backdrop-filter: blur(25px);
             z-index: 1000; box-shadow: 0 10px 40px var(--shadow-color);
             padding: 35px 20px 25px 20px; border-radius: 25px;
             border: 1px solid var(--border-color); direction: rtl;
-            transform-origin: top left; /* نقطة بداية التمدد من مكان الترس */
-            transform: scale(0); /* الحجم الأولي صفر (مخفية) */
+            transform-origin: top left; 
+            transform: scale(0); 
             opacity: 0;
             visibility: hidden;
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .settings-panel.active { 
-            transform: scale(1); /* الحجم الطبيعي */
+            transform: scale(1); 
             opacity: 1;
             visibility: visible;
         }
@@ -119,18 +118,42 @@
             border: 3px solid var(--border-color);
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0; transform: translateY(-30px);
-            animation: slideDownPic 1s ease-out 2.5s forwards;
+            animation: slideDownPic 1s ease-out 2.5s forwards, floatCircular 6s linear infinite 3.5s;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes floatCircular {
+            0%   { transform: translate(0px, 0px); }
+            12.5%{ transform: translate(2.8px, 1.2px); }
+            25%  { transform: translate(4px, 4px); }
+            37.5%{ transform: translate(2.8px, 6.8px); }
+            50%  { transform: translate(0px, 8px); }
+            62.5%{ transform: translate(-2.8px, 6.8px); }
+            75%  { transform: translate(-4px, 4px); }
+            87.5%{ transform: translate(-2.8px, 1.2px); }
+            100% { transform: translate(0px, 0px); }
+        }
 
         .header-name-wrapper {
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; opacity: 0; transform: translateY(15px);
-            animation: wrapperSlideUp 1s ease-out 2.7s forwards;
+            animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatUpAndDown 4s ease-in-out infinite 3.7s;
         }
         @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0); } }
 
-        .header-name { font-family: 'Dancing Script', cursive; font-size: 1.9rem; color: var(--text-color); }
+        @keyframes floatUpAndDown {
+            0%   { transform: translateY(0px); }
+            50%  { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* الاسم بدرجة اللون الذهبي الداكن الموحدة للوضعين معاً */
+        .header-name { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 1.9rem; 
+            color: #B8860B; /* ذهبي داكن */
+        }
+        
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; margin-left: 10px; }
 
         .main-content {
