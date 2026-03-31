@@ -25,7 +25,7 @@
             height: 100vh; 
             padding: 20px; 
             text-align: center;
-            padding-top: 10vh;
+            padding-top: 8vh;
         }
 
         .welcome-msg {
@@ -44,29 +44,48 @@
             100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
         }
 
-        /* تنسيق الاسم وعلامة التوثيق */
+        /* --- تنسيق الصورة مع الرابط الجديد وتأثير الدخول من أعلى لأسفل --- */
+        .profile-pic {
+            width: 85px; 
+            height: 85px;
+            border-radius: 50%;
+            /* تم تحديث الرابط هنا */
+            background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: slideDownPic 1.2s ease-out 2.3s forwards;
+        }
+
+        @keyframes slideDownPic {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .header-name-wrapper {
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 25px; opacity: 0; 
-            transform: translateY(30px);
-            animation: wrapperSlideUp 1.5s ease-out 2.3s forwards;
+            transform: translateY(20px);
+            animation: wrapperSlideUp 1.2s ease-out 2.5s forwards;
         }
 
         @keyframes wrapperSlideUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header-name {
-            font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: white;
+            font-family: 'Dancing Script', cursive; 
+            font-size: 1.8rem; 
+            color: white;
         }
 
         .verify-badge {
-            color: #1DA1F2; font-size: 1.2rem; margin-left: 12px;
-            opacity: 1; transform: scale(1); 
+            color: #1DA1F2; font-size: 1.1rem; margin-left: 10px;
         }
 
-        /* الحاوية الأساسية تظهر بعد الترحيب */
         .main-content {
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
@@ -78,7 +97,6 @@
 
         .links-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
-        /* --- الأزرار وتأثير الدخول الديناميكي الجديد --- */
         .btn {
             background: rgba(255, 255, 255, 0.07);
             backdrop-filter: blur(12px); 
@@ -88,52 +106,40 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
             transition: background 0.3s, transform 0.1s;
-            
-            /* الأزرار تبدأ مخفية عشان تدخل بالأنميشن */
             opacity: 0; 
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* توقيت دخول الأزرار ورا بعض (تتابع) */
-        .links-container .btn:nth-child(1) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.3s forwards; }
-        .links-container .btn:nth-child(2) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.45s forwards; }
-        .links-container .btn:nth-child(3) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.6s forwards; }
-        .links-container .btn:nth-child(4) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.75s forwards; }
-        .links-container .btn:nth-child(5) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.9s forwards; }
+        .links-container .btn:nth-child(1) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.6s forwards; }
+        .links-container .btn:nth-child(2) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.75s forwards; }
+        .links-container .btn:nth-child(3) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.9s forwards; }
+        .links-container .btn:nth-child(4) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.05s forwards; }
+        .links-container .btn:nth-child(5) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.2s forwards; }
 
-        /* أنميشن الضباب الأبيض والتصغير السلس */
         @keyframes popGlass {
             0% {
-                opacity: 0;
-                transform: scale(1.15); /* حجم أكبر */
-                background: rgba(255, 255, 255, 0.4); /* لون أبيض قوي */
-                box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* ضباب مضيء */
-                border-color: rgba(255, 255, 255, 0.8);
+                opacity: 0; transform: scale(1.15);
+                background: rgba(255, 255, 255, 0.4);
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
             }
             100% {
-                opacity: 1;
-                transform: scale(1); /* الحجم الطبيعي */
-                background: rgba(255, 255, 255, 0.07); /* الشكل الزجاجي الطبيعي */
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* الظل الطبيعي */
-                border-color: rgba(255, 255, 255, 0.08);
+                opacity: 1; transform: scale(1);
+                background: rgba(255, 255, 255, 0.07);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
             }
         }
 
-        /* تأثير الضغطة مع important للحفاظ عليها بعد الأنميشن */
         .btn:active { 
             transform: scale(0.95) !important; 
             background: rgba(255, 255, 255, 0.15) !important; 
         }
-        /* ----------------------------------------------- */
 
         .footer { margin-top: 30px; }
         .wish { font-family: sans-serif; font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px; }
 
         .bottom-right-info {
-            position: fixed;
-            bottom: 12px;
-            right: 15px;
-            text-align: right;
-            direction: rtl;
+            position: fixed; bottom: 12px; right: 15px;
+            text-align: right; direction: rtl;
             opacity: 0;
             animation: fadeInAll 0.5s ease-in 2.2s forwards;
         }
@@ -143,9 +149,7 @@
             color: rgba(255, 255, 255, 0.6); display: block; margin-bottom: 2px;
         }
 
-        .copyright-bottom {
-            font-family: 'Cairo', sans-serif; font-size: 8px; opacity: 0.2;
-        }
+        .copyright-bottom { font-family: 'Cairo', sans-serif; font-size: 8px; opacity: 0.2; }
     </style>
 </head>
 <body>
@@ -153,6 +157,8 @@
     <div class="container">
         <div class="welcome-msg">مرحباً</div>
         
+        <div class="profile-pic"></div>
+
         <div class="header-name-wrapper">
             <div class="header-name">Ahmed Ghoneim</div>
             <i class="fas fa-check-circle verify-badge"></i>
@@ -178,7 +184,7 @@
             </div>
 
             <div class="footer">
-                <div class="wish">Have a nice day 😊</div>
+                <div class="wish">Have a nice day</div>
             </div>
         </div>
     </div>
@@ -192,7 +198,6 @@
         function animateCounter(targetValue, duration) {
             const countElement = document.getElementById('count-up');
             let startTime = null;
-
             function updateCount(currentTime) {
                 if (!startTime) startTime = currentTime;
                 const progress = Math.min((currentTime - startTime) / duration, 1);
@@ -200,7 +205,6 @@
                 countElement.innerText = currentNumber.toLocaleString();
                 if (progress < 1) requestAnimationFrame(updateCount);
             }
-            
             setTimeout(() => {
                 requestAnimationFrame(updateCount);
             }, 2200);
