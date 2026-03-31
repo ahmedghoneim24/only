@@ -5,201 +5,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ahmed Ghoneim</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Dancing+Script:wght@700&family=El+Messiri:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1a0000 0%, #3d0303 50%, #1a0000 100%);
+            --text-color: #ffffff;
+            --btn-bg: rgba(255, 255, 255, 0.07);
+            --panel-bg: rgba(40, 5, 5, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode {
+            --bg-gradient: linear-gradient(135deg, #edeae0 0%, #e0dcd0 100%);
+            --text-color: #2a0202; 
+            --btn-bg: rgba(0, 0, 0, 0.05);
+            --panel-bg: rgba(237, 234, 224, 0.9);
+            --shadow-color: rgba(0, 0, 0, 0.12);
+            --border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; padding: 0; 
+            transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.5s ease, 
+                        border-color 0.5s ease, 
+                        box-shadow 0.5s ease,
+                        transform 0.6s ease;
+        }
         
         body, html {
             height: 100%; width: 100%; overflow: hidden;
             font-family: 'Cairo', sans-serif;
-            color: white;
-            background: linear-gradient(135deg, #1a0000 0%, #3d0303 50%, #1a0000 100%);
+            color: var(--text-color);
+            background: var(--bg-gradient);
+        }
+
+        .welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000; background: transparent;
+            pointer-events: none;
+        }
+        
+        .welcome-text {
+            font-family: 'El Messiri', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 700; 
+            color: #ffffff;
+            opacity: 0; 
+            transform: scale(0.9);
+            filter: blur(10px);
+            animation: welcomeAnim 2.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        @keyframes welcomeAnim {
+            0% { opacity: 0; transform: scale(0.8); filter: blur(15px); }
+            30% { opacity: 1; transform: scale(1); filter: blur(0); }
+            75% { opacity: 1; transform: scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); visibility: hidden; }
         }
 
         .container {
             display: flex; flex-direction: column; 
             justify-content: flex-start; align-items: center; 
             height: 100vh; padding: 20px; text-align: center;
-            padding-top: 8vh;
+            padding-top: 5vh;
         }
 
-        .welcome-msg {
-            font-family: 'Cairo', sans-serif; font-size: 3.2rem; font-weight: 700;
-            position: absolute; top: 40%;
-            animation: fadeOut 2.2s forwards;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 0; transform: scale(0.9); }
-            20% { opacity: 1; transform: scale(1); }
-            80% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
-        }
-
-        /* أيقونة الترس */
         .settings-icon {
             position: fixed; top: 20px; left: 20px;
-            font-size: 1.2rem; color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem; color: var(--text-color);
             cursor: pointer; z-index: 100; opacity: 0;
-            animation: fadeInAll 0.5s ease-in 2.2s forwards;
-            transition: transform 0.4s ease, color 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
+            animation: fadeInAll 0.5s ease-in 2.4s forwards;
         }
-        .settings-icon:hover { transform: rotate(120deg); color: white; }
+        .settings-icon.rotate { transform: rotate(180deg); }
 
-        /* الضباب */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
             z-index: 999; opacity: 0; visibility: hidden;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
         .overlay.active { opacity: 1; visibility: visible; }
 
-        /* قائمة الإعدادات */
         .settings-panel {
             position: fixed; top: 20px; right: -300px;
-            width: 260px; height: auto;
-            background: rgba(50, 5, 5, 0.8); backdrop-filter: blur(20px);
-            z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 270px; background: var(--panel-bg); backdrop-filter: blur(25px);
+            z-index: 1000; box-shadow: 0 10px 40px var(--shadow-color);
+            transition: right 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             padding: 35px 20px 25px 20px; border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1); margin-right: 15px;
-            direction: rtl; display: flex; flex-direction: column; align-items: center;
+            border: 1px solid var(--border-color); direction: rtl;
         }
-        .settings-panel.active { right: 0; }
+        .settings-panel.active { right: 0; margin-right: 15px; }
 
-        .close-panel {
-            position: absolute; top: 15px; left: 15px;
-            font-size: 1.2rem; color: rgba(255, 255, 255, 0.5); cursor: pointer;
-        }
-
-        .panel-text {
-            font-family: 'Cairo', sans-serif; font-size: 0.95rem;
-            line-height: 1.6; color: white; margin-bottom: 20px; text-align: center;
-        }
-
-        /* العداد داخل الإعدادات */
-        .projects-counter {
-            margin-top: 15px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.8);
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 16px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            width: fit-content;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.8s ease, transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .settings-panel.active .projects-counter {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 0.3s;
-        }
-
-        .count-icon { color: #FFD700; font-size: 0.8rem; }
-        
-        /* علامة التوثيق الصغيرة */
-        .verify-small {
-            color: #1DA1F2;
-            font-size: 0.75rem; /* نفس حجم الخط */
-            margin-right: 2px;
-        }
-
-        /* باقي التنسيقات */
         .profile-pic {
-            width: 85px; height: 85px; border-radius: 50%;
+            width: 90px; height: 90px; border-radius: 50%;
             background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
             background-size: cover; background-position: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); margin-bottom: 15px;
-            opacity: 0; transform: translateY(-50px);
-            animation: slideDownPic 1.2s ease-out 2.3s forwards;
+            border: 3px solid var(--border-color);
+            box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
+            opacity: 0; transform: translateY(-30px);
+            animation: slideDownPic 1s ease-out 2.5s forwards;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
 
         .header-name-wrapper {
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 25px; opacity: 0; transform: translateY(20px);
-            animation: wrapperSlideUp 1.2s ease-out 2.5s forwards;
+            margin-bottom: 20px; opacity: 0; transform: translateY(15px);
+            animation: wrapperSlideUp 1s ease-out 2.7s forwards;
         }
         @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0); } }
 
-        .header-name { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: white; }
+        .header-name { font-family: 'Dancing Script', cursive; font-size: 1.9rem; color: var(--text-color); }
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; margin-left: 10px; }
 
         .main-content {
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
-            opacity: 0; animation: fadeInAll 0.5s ease-in 2.2s forwards;
+            opacity: 0; animation: fadeInAll 0.5s ease-in 2.4s forwards;
+            margin-bottom: 60px;
         }
         @keyframes fadeInAll { to { opacity: 1; } }
 
         .links-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
         .btn {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(12px); 
-            color: white; padding: 14px; border-radius: 18px;
-            text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: background 0.3s, transform 0.1s;
-            opacity: 0; -webkit-tap-highlight-color: transparent; width: 100%;
+            background: var(--btn-bg); backdrop-filter: blur(10px); 
+            color: var(--text-color); padding: 14px; border-radius: 18px;
+            text-decoration: none; font-weight: 700; font-size: 0.88rem;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            border: 1px solid var(--border-color);
+            opacity: 0; width: 100%;
         }
 
-        .main-content .btn:nth-child(1) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.6s forwards; }
-        .main-content .btn:nth-child(2) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.75s forwards; }
-        .main-content .btn:nth-child(3) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.9s forwards; }
-        .main-content .btn:nth-child(4) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.05s forwards; }
-        .main-content .btn:nth-child(5) { animation: popGlass 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.2s forwards; }
+        .main-content .btn:nth-child(1) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
+        .main-content .btn:nth-child(2) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
+        .main-content .btn:nth-child(3) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
+        .main-content .btn:nth-child(4) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
+        .main-content .btn:nth-child(5) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
 
-        @keyframes popGlass {
-            0% { opacity: 0; transform: scale(1.15); background: rgba(255, 255, 255, 0.4); }
-            100% { opacity: 1; transform: scale(1); background: rgba(255, 255, 255, 0.07); }
-        }
+        @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
 
-        .footer { margin-top: 25px; }
-        .wish { font-family: sans-serif; font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px; }
+        .wish { font-family: sans-serif; font-size: 0.65rem; opacity: 0.7; letter-spacing: 1.2px; color: var(--text-color); font-weight: 600; text-transform: uppercase; margin-top: 25px; }
 
         .bottom-right-info {
-            position: fixed; bottom: 12px; right: 15px;
+            position: fixed; bottom: 15px; right: 15px;
             text-align: right; direction: rtl; opacity: 0;
-            animation: fadeInAll 0.5s ease-in 2.2s forwards;
+            animation: fadeInAll 0.5s ease-in 2.6s forwards;
+            z-index: 10;
         }
-        .counter-text { font-family: 'Cairo', sans-serif; font-size: 10px; color: rgba(255, 255, 255, 0.6); }
-        .copyright-bottom { font-family: 'Cairo', sans-serif; font-size: 8px; opacity: 0.2; }
+        .counter-text { font-family: 'Cairo', sans-serif; font-size: 10px; color: var(--text-color); opacity: 0.7; font-weight: 600; }
+        .copyright-bottom { font-family: 'Cairo', sans-serif; font-size: 8px; color: var(--text-color); opacity: 0.4; margin-top: 2px; }
+
+        /* تعديل أيقونة التيك توك هنا */
+        .fa-tiktok { 
+            color: #ffffff; 
+            text-shadow: -1.5px -1.5px 0 #25F4EE, 1.5px 1.5px 0 #FE2C55; 
+        }
+        body.light-mode .fa-tiktok { 
+            color: #000000; 
+            text-shadow: -1.5px -1.5px 0 #25F4EE, 1.5px 1.5px 0 #FE2C55; 
+        }
+
+        .mini-verify { color: #1DA1F2; font-size: 0.7rem; margin-right: 3px; }
     </style>
 </head>
 <body>
+
+    <div class="welcome-screen">
+        <div class="welcome-text">مرحباً</div>
+    </div>
 
     <i class="fas fa-cog settings-icon" id="settingsBtn"></i>
     <div class="overlay" id="overlay"></div>
 
     <div class="settings-panel" id="settingsPanel">
-        <i class="fas fa-times close-panel" id="closeBtn"></i>
-        <div class="panel-text">لإنشاء متجرك الإلكتروني تواصل معنا</div>
-        <a href="mailto:qwrtreu1245@gmail.com" class="btn" style="opacity: 1; padding: 10px; font-size: 0.85rem;">
+        <i class="fas fa-times close-panel" id="closeBtn" style="position: absolute; top: 15px; left: 15px; cursor: pointer; opacity: 0.5;"></i>
+        <div style="font-size: 0.9rem; margin-bottom: 15px; text-align: center;">لإنشاء متجرك الإلكتروني تواصل معنا</div>
+        <a href="mailto:qwrtreu1245@gmail.com" class="btn" style="opacity: 1; padding: 10px; font-size: 0.8rem; margin-bottom: 10px;">
             <i class="fas fa-envelope" style="color: #EA4335;"></i> تواصل عبر البريد
         </a>
-        
-        <div class="projects-counter" id="counterBox">
-            <i class="fas fa-sparkles count-icon"></i>
+        <div id="modeToggle" style="display: flex; align-items: center; justify-content: space-between; background: var(--btn-bg); padding: 12px 15px; border-radius: 15px; cursor: pointer; border: 1px solid var(--border-color);">
+            <span id="modeText" style="font-size: 0.85rem; font-weight: 600;">الوضع الفاتح</span>
+            <i class="fas fa-sun" id="modeIcon" style="color: #FFD700;"></i>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.75rem; background: var(--btn-bg); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; justify-content: center;">
             <span>مشارك في +<span id="web-counter">0</span> Web</span>
-            <i class="fas fa-check-circle verify-small"></i> </div>
+            <i class="fas fa-check-circle mini-verify"></i>
+        </div>
     </div>
 
     <div class="container">
-        <div class="welcome-msg">مرحباً</div>
         <div class="profile-pic"></div>
         <div class="header-name-wrapper">
             <div class="header-name">Ahmed Ghoneim</div>
@@ -209,22 +210,23 @@
             <div class="links-container">
                 <a href="https://www.facebook.com/share/18k8Qf8y4P/" target="_blank" class="btn"><i class="fab fa-facebook" style="color: #1877F2;"></i> Facebook</a>
                 <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" target="_blank" class="btn"><i class="fab fa-instagram" style="color: #E4405F;"></i> Instagram</a>
-                <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn"><i class="fab fa-tiktok" style="color: #00f2ea;"></i> TikTok</a>
+                <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn"><i class="fab fa-tiktok"></i> TikTok</a>
                 <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn"><i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram</a>
                 <a href="mailto:qwrtreu1245@gmail.com" class="btn"><i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail</a>
             </div>
-            <div class="footer"><div class="wish">Have a nice day 😊</div></div>
+            <div class="wish">Have a nice day</div>
         </div>
     </div>
 
     <div class="bottom-right-info">
         <span class="counter-text">عدد الزيارات أكثر من : <span id="count-up">0</span></span>
-        <div class="copyright-bottom">جميع الحقوق محفوظه للمطور أحمد غنيم</div>
+        <div class="copyright-bottom">جميع الحقوق محفوظة للمطور أحمد غنيم</div>
     </div>
 
     <script>
         function animateCounter(id, targetValue, duration) {
             const countElement = document.getElementById(id);
+            if(!countElement) return;
             let startTime = null;
             function updateCount(currentTime) {
                 if (!startTime) startTime = currentTime;
@@ -236,7 +238,7 @@
         }
 
         window.onload = () => {
-            setTimeout(() => animateCounter('count-up', 15779, 3000), 2200);
+            setTimeout(() => animateCounter('count-up', 15779, 3000), 2600);
         };
 
         const settingsBtn = document.getElementById('settingsBtn');
@@ -245,14 +247,39 @@
         const closeBtn = document.getElementById('closeBtn');
 
         settingsBtn.onclick = () => { 
+            settingsBtn.classList.add('rotate');
             settingsPanel.classList.add('active'); 
             overlay.classList.add('active'); 
             document.getElementById('web-counter').innerText = '0';
             setTimeout(() => { animateCounter('web-counter', 100, 2000); }, 600);
         };
 
-        closeBtn.onclick = () => { settingsPanel.classList.remove('active'); overlay.classList.remove('active'); };
-        overlay.onclick = () => { settingsPanel.classList.remove('active'); overlay.classList.remove('active'); };
+        const closePanelFunc = () => {
+            settingsBtn.classList.remove('rotate');
+            settingsPanel.classList.remove('active'); 
+            overlay.classList.remove('active'); 
+        };
+
+        closeBtn.onclick = closePanelFunc;
+        overlay.onclick = closePanelFunc;
+
+        const modeToggle = document.getElementById('modeToggle');
+        const modeText = document.getElementById('modeText');
+        const modeIcon = document.getElementById('modeIcon');
+        const body = document.body;
+
+        modeToggle.onclick = () => {
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('light-mode')) {
+                modeText.innerText = "الوضع الداكن";
+                modeIcon.classList.replace('fa-sun', 'fa-moon');
+                modeIcon.style.color = "#2a0202";
+            } else {
+                modeText.innerText = "الوضع الفاتح";
+                modeIcon.classList.replace('fa-moon', 'fa-sun');
+                modeIcon.style.color = "#FFD700";
+            }
+        };
     </script>
 </body>
 </html>
