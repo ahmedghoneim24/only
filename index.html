@@ -88,26 +88,26 @@
             padding-top: 5vh;
         }
 
-        /* --- صورة الغلاف بعد التعديل لطلبك --- */
+        /* --- صورة الغلاف --- */
         .cover-photo {
             position: absolute;
-            top: 3vh; /* تنزل تحت شوية عشان تتوسط صورتك */
+            top: 3vh; 
             left: 50%;
             transform: translateX(-50%);
-            width: 80vw; /* مش هتوصل للحواف */
-            max-width: 300px; /* أقصى عرض عشان تفضل صغيرة وملمومة */
-            height: 140px; /* طول صغير عشان متعديش تلت تربع صورتك من تحت */
+            width: 80vw; 
+            max-width: 300px; 
+            height: 140px; 
             background-image: url('https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/0503c20a-aced-4f76-8a44-7ae269b6123a.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            z-index: 0; /* تحت صورتك الشخصية وفوق الخلفية */
+            z-index: 0; 
             pointer-events: none;
-            /* تركيز دائرة التلاشي عشان تناسب الحجم الصغير */
             -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
             mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
             opacity: 0;
-            animation: fadeInCover 1.5s ease-out 0.5s forwards; 
+            /* تم زيادة وقت التأخير لـ 2.5 ثانية عشان تظهر بعد ما الموقع يفتح */
+            animation: fadeInCover 1.5s ease-out 2.5s forwards; 
         }
 
         @keyframes fadeInCover {
@@ -151,7 +151,7 @@
         html[dir="ltr"] .settings-panel { direction: ltr; transform-origin: top left; left: 20px; }
 
         .profile-pic {
-            position: relative; z-index: 2; /* تأكيد بقاء الصورة في المقدمة */
+            position: relative; z-index: 2; 
             width: 90px; height: 90px; border-radius: 50%;
             background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
             background-size: cover; background-position: center;
