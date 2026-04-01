@@ -60,23 +60,43 @@
             pointer-events: none;
         }
         
+        /* --- الأنيميشن الجديد لكلمة مرحباً --- */
         .welcome-text {
             font-family: 'El Messiri', sans-serif;
             font-size: 3.2rem;
             font-weight: 700; 
             color: #ffffff;
             opacity: 0; 
-            transform: scale(0.9);
-            filter: blur(10px);
-            animation: welcomeAnim 2.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: smoothWelcome 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        @keyframes welcomeAnim {
-            0% { opacity: 0; transform: scale(0.8); filter: blur(15px); }
-            30% { opacity: 1; transform: scale(1); filter: blur(0); }
-            75% { opacity: 1; transform: scale(1); filter: blur(0); }
-            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); visibility: hidden; }
+        @keyframes smoothWelcome {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.9); 
+                filter: blur(12px); 
+                letter-spacing: -2px; 
+            }
+            25% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                filter: blur(0); 
+                letter-spacing: 1px; 
+            }
+            75% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                filter: blur(0); 
+                letter-spacing: 3px; 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-20px) scale(1.05); 
+                filter: blur(10px); 
+                visibility: hidden; 
+                letter-spacing: 6px; 
+            }
         }
 
         .container {
@@ -90,7 +110,7 @@
             position: fixed; top: 20px; left: 20px;
             font-size: 1.2rem; color: var(--text-color);
             cursor: pointer; z-index: 100; opacity: 0;
-            animation: fadeInAll 0.5s ease-in 2.4s forwards;
+            animation: fadeInAll 0.5s ease-in 3.2s forwards;
         }
         .settings-icon.rotate { transform: rotate(180deg); }
 
@@ -128,14 +148,14 @@
             border: 3px solid var(--border-color);
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0;
-            animation: slideDownPic 1s ease-out 2.5s forwards;
+            animation: slideDownPic 1s ease-out 3s forwards;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
 
         .header-name-wrapper {
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; opacity: 0; transform: translateY(15px);
-            animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatName 3s ease-in-out infinite 3.7s;
+            animation: wrapperSlideUp 1s ease-out 3.2s forwards, floatName 3s ease-in-out infinite 4.2s;
             direction: ltr;
             gap: 6px;
         }
@@ -156,7 +176,7 @@
         .main-content {
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
-            opacity: 0; animation: fadeInAll 0.5s ease-in 2.4s forwards;
+            opacity: 0; animation: fadeInAll 0.5s ease-in 3.2s forwards;
             margin-bottom: 60px;
         }
         @keyframes fadeInAll { to { opacity: 1; } }
@@ -245,11 +265,11 @@
             box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3);
         }
 
-        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
-        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
-        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
-        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
-        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
+        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.3s forwards; }
+        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.45s forwards; }
+        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.6s forwards; }
+        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.75s forwards; }
+        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.9s forwards; }
 
         @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
 
@@ -317,7 +337,7 @@
             color: #8e8e8e; 
             opacity: 0; 
             white-space: nowrap;
-            animation: fadeInAll 0.8s ease-in 3.6s forwards; 
+            animation: fadeInAll 0.8s ease-in 4s forwards; 
             letter-spacing: 0.5px;
         }
 
@@ -359,7 +379,6 @@
         .toggle-switch.active .toggle-knob { transform: translateX(-20px); }
         html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px); }
 
-        /* --- تحسين وضع التباين العالي --- */
         body.high-contrast-text {
             --btn-bg: #000000 !important;
             --panel-bg: #000000 !important;
@@ -385,7 +404,6 @@
             --text-color: #000000 !important;
         }
         
-        /* حل مشكلة اختفاء النص في العداد عند الوضع الفاتح + التباين العالي */
         body.light-mode.high-contrast-text .redirect-timer {
             color: #000000 !important;
             background: #ffffff !important;
@@ -402,7 +420,6 @@
         body.light-mode.high-contrast-text .lang-slider,
         body.light-mode.high-contrast-text .theme-slider { background: #000000 !important; }
 
-        /* --- تصميم أزرار التبديل الاحترافية (اللغة والمظهر) --- */
         .toggle-row-btn {
             display: flex; align-items: center; justify-content: space-between;
             background: var(--btn-bg); padding: 10px 15px; border-radius: 15px;
@@ -421,7 +438,6 @@
             z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        /* Language slider specific */
         .lang-slider { background: #4db8ff; }
         .lang-option {
             font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%;
@@ -431,7 +447,6 @@
         body.light-mode .lang-option { color: #888; }
         body.light-mode .lang-option.active { color: #ffffff; }
 
-        /* Theme slider specific */
         .theme-switch { padding: 0 8px; }
         .theme-slider { background: #FFD700; }
         body.light-mode .theme-slider { background: #555; transform: translateX(28px); }
@@ -638,7 +653,8 @@
                         timerText.innerHTML = t.redirectingNow;
                         
                         setTimeout(() => {
-                            window.open(targetUrl, '_blank');
+                            // تم التعديل هنا ليدعم أجهزة الـ iOS وتخطي مانع النوافذ المنبثقة
+                            window.location.href = targetUrl;
                             
                             setTimeout(() => {
                                 timerDisplay.classList.remove('active');
