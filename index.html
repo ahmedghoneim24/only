@@ -209,20 +209,40 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             max-height: 0;
             opacity: 0;
             margin-top: 0;
             padding: 0 15px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .redirect-timer.active {
-            max-height: 40px;
+            max-height: 50px;
             opacity: 1;
             margin-top: 8px;
             padding: 8px 15px;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border: 1px solid #ff4d4d;
+            color: #ff4d4d;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+        }
+        .cancel-btn:hover { 
+            background: #ff4d4d; 
+            color: #fff; 
+            transform: scale(1.05); 
+            box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3);
         }
 
         .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
@@ -339,7 +359,7 @@
         .toggle-switch.active .toggle-knob { transform: translateX(-20px); }
         html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px); }
 
-        /* --- تحسين وضع التباين العالي (إصلاح عدم ظهور الخط) --- */
+        /* --- تحسين وضع التباين العالي --- */
         body.high-contrast-text {
             --btn-bg: #000000 !important;
             --panel-bg: #000000 !important;
@@ -354,7 +374,9 @@
             color: #FFD700 !important; 
         }
         body.high-contrast-text .redirect-timer { background: #000 !important; border-color: #fff !important; }
-        body.high-contrast-text .lang-slider { background: #FFD700 !important; }
+        body.high-contrast-text .lang-slider,
+        body.high-contrast-text .theme-slider { background: #FFD700 !important; }
+        body.high-contrast-text .cancel-btn { border-color: #fff !important; color: #fff !important; background: #f00 !important; }
 
         body.light-mode.high-contrast-text {
             --btn-bg: #ffffff !important;
@@ -362,32 +384,45 @@
             --border-color: #000000 !important;
             --text-color: #000000 !important;
         }
+        
+        /* حل مشكلة اختفاء النص في العداد عند الوضع الفاتح + التباين العالي */
+        body.light-mode.high-contrast-text .redirect-timer {
+            color: #000000 !important;
+            background: #ffffff !important;
+            border-color: #000000 !important;
+        }
+        
         body.light-mode.high-contrast-text .header-name,
         body.light-mode.high-contrast-text .wish,
         body.light-mode.high-contrast-text i:not(.lang-option),
-        body.light-mode.high-contrast-text .redirect-timer {
+        body.light-mode.high-contrast-text .redirect-timer span {
             color: #000000 !important;
         }
-        body.light-mode.high-contrast-text .lang-slider { background: #000000 !important; }
+        
+        body.light-mode.high-contrast-text .lang-slider,
+        body.light-mode.high-contrast-text .theme-slider { background: #000000 !important; }
 
-        /* --- تصميم زر تغيير اللغة الاحترافي الجديد --- */
-        .lang-toggle-btn {
+        /* --- تصميم أزرار التبديل الاحترافية (اللغة والمظهر) --- */
+        .toggle-row-btn {
             display: flex; align-items: center; justify-content: space-between;
             background: var(--btn-bg); padding: 10px 15px; border-radius: 15px;
             cursor: pointer; border: 1px solid var(--border-color); margin-top: 10px;
         }
-        .lang-switch {
+        .custom-switch {
             position: relative; width: 60px; height: 28px; background: rgba(0,0,0,0.3);
             border-radius: 20px; display: flex; align-items: center; justify-content: space-between;
             padding: 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid var(--border-color);
-            direction: ltr; /* فرض الاتجاه للتحكم الدقيق بالمؤشر */
+            direction: ltr; 
         }
-        body.light-mode .lang-switch { background: rgba(0,0,0,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
-        .lang-slider {
+        body.light-mode .custom-switch { background: rgba(0,0,0,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .custom-slider {
             position: absolute; top: 2px; left: 2px; width: 28px; height: 22px;
-            background: #4db8ff; border-radius: 15px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 15px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
             z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        
+        /* Language slider specific */
+        .lang-slider { background: #4db8ff; }
         .lang-option {
             font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%;
             text-align: center; transition: color 0.4s ease; color: #888;
@@ -395,6 +430,16 @@
         .lang-option.active { color: #ffffff; }
         body.light-mode .lang-option { color: #888; }
         body.light-mode .lang-option.active { color: #ffffff; }
+
+        /* Theme slider specific */
+        .theme-switch { padding: 0 8px; }
+        .theme-slider { background: #FFD700; }
+        body.light-mode .theme-slider { background: #555; transform: translateX(28px); }
+        .theme-icon { font-size: 0.75rem; z-index: 2; transition: color 0.4s ease; }
+        #icon-sun { color: #fff; } 
+        #icon-moon { color: #888; }
+        body.light-mode #icon-sun { color: #888; }
+        body.light-mode #icon-moon { color: #fff; }
 
     </style>
 </head>
@@ -410,15 +455,19 @@
     <div class="settings-panel" id="settingsPanel">
         <i class="fas fa-times close-panel" id="closeBtn" style="position: absolute; top: 15px; left: 15px; cursor: pointer; opacity: 0.5;"></i>
         
-        <div id="modeToggle" style="display: flex; align-items: center; justify-content: space-between; background: var(--btn-bg); padding: 12px 15px; border-radius: 15px; cursor: pointer; border: 1px solid var(--border-color); margin-top: 10px;">
+        <div id="modeToggle" class="toggle-row-btn">
             <span id="modeText" style="font-size: 0.85rem; font-weight: 600;">الوضع الفاتح</span>
-            <i class="fas fa-sun" id="modeIcon" style="color: #FFD700;"></i>
+            <div class="custom-switch theme-switch" dir="ltr">
+                <div class="custom-slider theme-slider" id="themeSlider"></div>
+                <i class="fas fa-sun theme-icon" id="icon-sun"></i>
+                <i class="fas fa-moon theme-icon" id="icon-moon"></i>
+            </div>
         </div>
 
-        <div id="langToggle" class="lang-toggle-btn">
+        <div id="langToggle" class="toggle-row-btn">
             <span id="lang-label-text" style="font-size: 0.85rem; font-weight: 600; color: var(--text-color);">اللغة</span>
-            <div class="lang-switch" dir="ltr">
-                <div class="lang-slider" id="langSlider"></div>
+            <div class="custom-switch" dir="ltr">
+                <div class="custom-slider lang-slider" id="langSlider"></div>
                 <span class="lang-option active" id="lang-ar">AR</span>
                 <span class="lang-option" id="lang-en">EN</span>
             </div>
@@ -510,8 +559,9 @@
                 contrast: "تباين عالي",
                 visitorTitle: "عدد زوار الموقع",
                 copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم",
-                redirect: "سيتم انتقالك خلال ",
-                redirectingNow: "جاري الانتقال..."
+                redirect: "سيتم انتقالك خلال",
+                redirectingNow: "جاري الانتقال...",
+                cancel: "إلغاء"
             },
             en: {
                 welcome: "Welcome",
@@ -524,8 +574,9 @@
                 contrast: "High Contrast",
                 visitorTitle: "Visitor Count",
                 copyright: "All Rights Reserved to Developer Ahmed Ghoneim",
-                redirect: "Redirecting in ",
-                redirectingNow: "Redirecting..."
+                redirect: "Redirecting in",
+                redirectingNow: "Redirecting...",
+                cancel: "Cancel"
             }
         };
 
@@ -548,19 +599,43 @@
 
                 document.querySelectorAll('.redirect-timer').forEach(el => {
                     el.classList.remove('active');
+                    el.innerHTML = '';
                 });
 
                 timerDisplay.classList.add('active');
                 const t = translations[currentLang];
-                timerDisplay.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${t.redirect} ${count}</span>`;
+                
+                timerDisplay.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;">
+                        <i class="fas fa-spinner fa-spin" id="timer-icon"></i> 
+                        <span id="timer-text">${t.redirect} <span id="timer-count">${count}</span></span>
+                        <button class="cancel-btn" id="cancel-btn">${t.cancel}</button>
+                    </div>
+                `;
+
+                const countSpan = timerDisplay.querySelector('#timer-count');
+                const cancelBtn = timerDisplay.querySelector('#cancel-btn');
+                const timerIcon = timerDisplay.querySelector('#timer-icon');
+                const timerText = timerDisplay.querySelector('#timer-text');
+
+                cancelBtn.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    clearInterval(redirectInterval);
+                    timerDisplay.classList.remove('active');
+                    isRedirecting = false;
+                });
 
                 redirectInterval = setInterval(() => {
                     count--;
                     if (count > 0) {
-                        timerDisplay.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${t.redirect} ${count}</span>`;
+                        countSpan.innerText = count;
                     } else if (count === 0) {
                         clearInterval(redirectInterval);
-                        timerDisplay.innerHTML = `<i class="fas fa-check-circle" style="color: #4CAF50;"></i> <span>${t.redirectingNow}</span>`;
+                        cancelBtn.style.display = 'none'; 
+                        timerIcon.className = 'fas fa-check-circle';
+                        timerIcon.style.color = '#4CAF50';
+                        timerText.innerHTML = t.redirectingNow;
                         
                         setTimeout(() => {
                             window.open(targetUrl, '_blank');
@@ -643,20 +718,8 @@
             }, 16);
         }
 
-        function updateModeIcon() {
-            const modeIcon = document.getElementById('modeIcon');
-            if(document.body.classList.contains('light-mode')) {
-                modeIcon.className = 'fas fa-moon';
-                modeIcon.style.color = '#555';
-            } else {
-                modeIcon.className = 'fas fa-sun';
-                modeIcon.style.color = '#FFD700';
-            }
-        }
-
         document.getElementById('modeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
-            updateModeIcon();
             updateLanguage();
         };
 
