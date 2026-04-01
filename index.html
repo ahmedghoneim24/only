@@ -60,57 +60,66 @@
             pointer-events: none;
         }
         
-        /* --- الأنيميشن الجديد لكلمة مرحباً --- */
         .welcome-text {
             font-family: 'El Messiri', sans-serif;
             font-size: 3.2rem;
             font-weight: 700; 
             color: #ffffff;
             opacity: 0; 
+            transform: scale(0.9);
+            filter: blur(10px);
+            animation: welcomeAnim 2.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            animation: smoothWelcome 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        @keyframes smoothWelcome {
-            0% { 
-                opacity: 0; 
-                transform: translateY(20px) scale(0.9); 
-                filter: blur(12px); 
-                letter-spacing: -2px; 
-            }
-            25% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-                filter: blur(0); 
-                letter-spacing: 1px; 
-            }
-            75% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-                filter: blur(0); 
-                letter-spacing: 3px; 
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateY(-20px) scale(1.05); 
-                filter: blur(10px); 
-                visibility: hidden; 
-                letter-spacing: 6px; 
-            }
+        @keyframes welcomeAnim {
+            0% { opacity: 0; transform: scale(0.8); filter: blur(15px); }
+            30% { opacity: 1; transform: scale(1); filter: blur(0); }
+            75% { opacity: 1; transform: scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); visibility: hidden; }
         }
 
         .container {
+            position: relative; 
+            z-index: 1;         
             display: flex; flex-direction: column; 
             justify-content: flex-start; align-items: center; 
             min-height: 100vh; padding: 20px; text-align: center;
             padding-top: 5vh;
         }
 
+        /* --- صورة الغلاف بعد التعديل لطلبك --- */
+        .cover-photo {
+            position: absolute;
+            top: 3vh; /* تنزل تحت شوية عشان تتوسط صورتك */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw; /* مش هتوصل للحواف */
+            max-width: 300px; /* أقصى عرض عشان تفضل صغيرة وملمومة */
+            height: 140px; /* طول صغير عشان متعديش تلت تربع صورتك من تحت */
+            background-image: url('https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/0503c20a-aced-4f76-8a44-7ae269b6123a.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0; /* تحت صورتك الشخصية وفوق الخلفية */
+            pointer-events: none;
+            /* تركيز دائرة التلاشي عشان تناسب الحجم الصغير */
+            -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
+            mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
+            opacity: 0;
+            animation: fadeInCover 1.5s ease-out 0.5s forwards; 
+        }
+
+        @keyframes fadeInCover {
+            to { opacity: 1; }
+        }
+        /* -------------------------------------- */
+
         .settings-icon {
             position: fixed; top: 20px; left: 20px;
             font-size: 1.2rem; color: var(--text-color);
             cursor: pointer; z-index: 100; opacity: 0;
-            animation: fadeInAll 0.5s ease-in 3.2s forwards;
+            animation: fadeInAll 0.5s ease-in 2.4s forwards;
         }
         .settings-icon.rotate { transform: rotate(180deg); }
 
@@ -142,20 +151,22 @@
         html[dir="ltr"] .settings-panel { direction: ltr; transform-origin: top left; left: 20px; }
 
         .profile-pic {
+            position: relative; z-index: 2; /* تأكيد بقاء الصورة في المقدمة */
             width: 90px; height: 90px; border-radius: 50%;
             background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
             background-size: cover; background-position: center;
             border: 3px solid var(--border-color);
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0;
-            animation: slideDownPic 1s ease-out 3s forwards;
+            animation: slideDownPic 1s ease-out 2.5s forwards;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
 
         .header-name-wrapper {
+            position: relative; z-index: 2;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; opacity: 0; transform: translateY(15px);
-            animation: wrapperSlideUp 1s ease-out 3.2s forwards, floatName 3s ease-in-out infinite 4.2s;
+            animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatName 3s ease-in-out infinite 3.7s;
             direction: ltr;
             gap: 6px;
         }
@@ -174,9 +185,10 @@
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; }
 
         .main-content {
+            position: relative; z-index: 2;
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
-            opacity: 0; animation: fadeInAll 0.5s ease-in 3.2s forwards;
+            opacity: 0; animation: fadeInAll 0.5s ease-in 2.4s forwards;
             margin-bottom: 60px;
         }
         @keyframes fadeInAll { to { opacity: 1; } }
@@ -265,11 +277,11 @@
             box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3);
         }
 
-        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.3s forwards; }
-        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.45s forwards; }
-        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.6s forwards; }
-        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.75s forwards; }
-        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.9s forwards; }
+        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
+        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
+        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
+        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
+        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
 
         @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
 
@@ -283,7 +295,7 @@
 
         .glass-counter-box {
             font-family: 'Cairo', sans-serif; 
-            font-size: 9px;
+            font-size: 11px;
             color: var(--text-color); 
             font-weight: 700; 
             background: var(--btn-bg);
@@ -337,7 +349,7 @@
             color: #8e8e8e; 
             opacity: 0; 
             white-space: nowrap;
-            animation: fadeInAll 0.8s ease-in 4s forwards; 
+            animation: fadeInAll 0.8s ease-in 3.6s forwards; 
             letter-spacing: 0.5px;
         }
 
@@ -525,6 +537,8 @@
     </div>
 
     <div class="container">
+        <div class="cover-photo"></div>
+        
         <div class="profile-pic"></div>
         <div class="header-name-wrapper">
             <div class="header-name">Ahmed Ghoneim</div>
@@ -599,6 +613,21 @@
         let isRedirecting = false;
         let redirectInterval;
 
+        let baseVisits = 20560;
+        let totalVisits = baseVisits;
+
+        fetch('https://api.counterapi.dev/v1/ahmedghoneim_portfolio/visits/up')
+            .then(response => response.json())
+            .then(data => {
+                totalVisits = baseVisits + data.count;
+            })
+            .catch(error => {
+                let localVisits = localStorage.getItem('local_visits') || 0;
+                localVisits++;
+                localStorage.setItem('local_visits', localVisits);
+                totalVisits = baseVisits + parseInt(localVisits);
+            });
+
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 if (isRedirecting) {
@@ -653,8 +682,7 @@
                         timerText.innerHTML = t.redirectingNow;
                         
                         setTimeout(() => {
-                            // تم التعديل هنا ليدعم أجهزة الـ iOS وتخطي مانع النوافذ المنبثقة
-                            window.location.href = targetUrl;
+                            window.open(targetUrl, '_blank');
                             
                             setTimeout(() => {
                                 timerDisplay.classList.remove('active');
@@ -706,7 +734,7 @@
             overlay.classList.add('active'); 
             setTimeout(() => { 
                 animateCounter('web-counter', 100, 1500); 
-                animateCounter('visit-counter', 20000, 2000);
+                animateCounter('visit-counter', totalVisits, 2000);
             }, 500);
         };
 
@@ -726,7 +754,7 @@
             const timer = setInterval(() => {
                 start += step;
                 if (start >= target) {
-                    el.innerText = id === 'visit-counter' ? (currentLang === 'ar' ? "+20 ألف" : "+20K") : Math.floor(target);
+                    el.innerText = Math.floor(target).toLocaleString();
                     clearInterval(timer);
                 } else {
                     el.innerText = Math.floor(start).toLocaleString();
