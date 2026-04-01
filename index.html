@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -37,6 +37,8 @@
                         transform 0.6s ease;
         }
         
+        html { font-size: var(--base-font-size, 16px); }
+
         body, html {
             height: 100%; width: 100%; overflow: hidden;
             font-family: 'Cairo', sans-serif;
@@ -110,6 +112,7 @@
             opacity: 1;
             visibility: visible;
         }
+        html[dir="ltr"] .settings-panel { direction: ltr; transform-origin: top left; left: 20px; }
 
         .profile-pic {
             width: 90px; height: 90px; border-radius: 50%;
@@ -118,7 +121,6 @@
             border: 3px solid var(--border-color);
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0;
-            /* الصورة الآن تظهر بحركة slideDown فقط وتظل ثابتة بعدها */
             animation: slideDownPic 1s ease-out 2.5s forwards;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
@@ -129,7 +131,6 @@
             animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatName 3s ease-in-out infinite 3.7s;
         }
         @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0); } }
-        /* حركة الاسم لأعلى وأسفل */
         @keyframes floatName {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
@@ -142,6 +143,7 @@
         }
         
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; margin-left: 10px; }
+        html[dir="ltr"] .verify-badge { margin-left: 0; margin-right: 10px; }
 
         .main-content {
             width: 100%; max-width: 340px;
@@ -241,12 +243,92 @@
         .fa-tiktok { color: #ffffff; text-shadow: -1.5px -1.5px 0 #25F4EE, 1.5px 1.5px 0 #FE2C55; }
         body.light-mode .fa-tiktok { color: #000000; }
         .mini-verify { color: #1DA1F2; font-size: 0.7rem; margin-right: 3px; }
+
+        .acc-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--btn-bg); padding: 12px 15px; border-radius: 15px;
+            cursor: pointer; border: 1px solid var(--border-color); margin-top: 15px;
+        }
+        .acc-box {
+            background: rgba(255, 255, 255, 0.05); border-radius: 15px;
+            border: 1px dashed var(--border-color); max-height: 0; overflow: hidden;
+            transition: all 0.4s ease; margin-top: 5px; opacity: 0;
+        }
+        .acc-box.open { padding: 12px; max-height: 200px; opacity: 1; }
+        .acc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .acc-row:last-child { margin-bottom: 0; }
+        .acc-btn {
+            background: var(--btn-bg); border: 1px solid var(--border-color);
+            color: var(--text-color); padding: 5px 12px; border-radius: 10px;
+            cursor: pointer; font-size: 0.75rem; transition: transform 0.2s, background 0.3s;
+        }
+        .acc-btn:active { transform: scale(0.95); }
+
+        /* --- تمت الإضافة: ستايل زر التبديل الواقعي للتباين --- */
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: background 0.4s ease, border-color 0.4s ease;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+        }
+        body.light-mode .toggle-switch {
+            background: rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        .toggle-knob {
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            right: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        html[dir="ltr"] .toggle-knob {
+            right: auto;
+            left: 3px;
+        }
+        body.high-contrast-text .toggle-switch {
+            background: #34C759; /* لون أخضر واقعي مثل الهواتف */
+            border-color: #34C759;
+        }
+        body.high-contrast-text .toggle-knob {
+            transform: translateX(-20px);
+        }
+        html[dir="ltr"] body.high-contrast-text .toggle-knob {
+            transform: translateX(20px);
+        }
+        /* ------------------------------------------- */
+
+        body.high-contrast-text {
+            --btn-bg: rgba(0, 0, 0, 0.85);
+            --panel-bg: rgba(0, 0, 0, 0.95);
+            --border-color: rgba(255, 255, 255, 0.3);
+        }
+        body.light-mode.high-contrast-text {
+            --btn-bg: rgba(255, 255, 255, 0.95);
+            --panel-bg: rgba(255, 255, 255, 1);
+            --border-color: rgba(0, 0, 0, 0.4);
+        }
+        body.high-contrast-text * { font-weight: 800 !important; }
+        body.high-contrast-text .header-name, 
+        body.high-contrast-text .wish { color: #ffffff !important; }
+        body.light-mode.high-contrast-text .header-name, 
+        body.light-mode.high-contrast-text .wish { color: #000000 !important; }
     </style>
 </head>
-<body>
+<body class="">
 
     <div class="welcome-screen">
-        <div class="welcome-text">مرحباً</div>
+        <div class="welcome-text" id="welcome-msg">مرحباً</div>
     </div>
 
     <i class="fas fa-cog settings-icon" id="settingsBtn"></i>
@@ -260,11 +342,35 @@
             <i class="fas fa-sun" id="modeIcon" style="color: #FFD700;"></i>
         </div>
 
+        <div id="langToggle" style="display: flex; align-items: center; justify-content: space-between; background: var(--btn-bg); padding: 12px 15px; border-radius: 15px; cursor: pointer; border: 1px solid var(--border-color); margin-top: 10px;">
+            <span id="langText" style="font-size: 0.85rem; font-weight: 600;">English</span>
+            <i class="fas fa-globe" style="color: #4db8ff;"></i>
+        </div>
+
         <div style="margin-top: 15px; font-size: 0.75rem; background: var(--btn-bg); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; justify-content: center;">
-            <span>مشارك في +<span id="web-counter">0</span> Web</span>
+            <span id="web-contrib">مشارك في +<span id="web-counter">0</span> Web</span>
             <i class="fas fa-check-circle mini-verify"></i>
         </div>
 
+        <div class="acc-toggle" id="accToggle">
+            <span id="acc-title" style="font-size: 0.85rem; font-weight: 600;">الوصول</span>
+            <i class="fas fa-universal-access"></i>
+        </div>
+        <div class="acc-box" id="accBox">
+            <div class="acc-row">
+                <span id="font-size-label" style="font-size: 0.75rem;">حجم الخط</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="acc-btn" onclick="changeFontSize(2)">+</button>
+                    <button class="acc-btn" onclick="changeFontSize(-2)">-</button>
+                </div>
+            </div>
+            <div class="acc-row">
+                <span id="contrast-label" style="font-size: 0.75rem;">تباين عالي</span>
+                <div class="toggle-switch" id="contrastBtn" title="تفعيل / إلغاء">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+        </div>
         <div class="settings-counter-wrapper">
             <div class="glass-counter-box" id="glassCounter">
                 <i class="fas fa-users" style="font-size: 0.7rem; opacity: 0.7;"></i>
@@ -273,7 +379,7 @@
             
             <div class="info-popup" id="infoPopup">
                 <i class="fas fa-exclamation-circle info-icon"></i>
-                <span class="info-text">عدد زوار الموقع</span>
+                <span class="info-text" id="visitor-msg">عدد زوار الموقع</span>
             </div>
         </div>
     </div>
@@ -292,15 +398,74 @@
                 <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn"><i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram</a>
                 <a href="mailto:qwrtreu1245@gmail.com" class="btn"><i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail</a>
             </div>
-            <div class="wish" style="font-family: 'Dancing Script', cursive; font-size: 0.95rem; color: #B8860B; margin-top: 25px; display: flex; align-items: center; gap: 8px; opacity: 0.9;">
+            <div class="wish" id="day-wish" style="font-family: 'Dancing Script', cursive; font-size: 0.95rem; color: #B8860B; margin-top: 25px; display: flex; align-items: center; gap: 8px; opacity: 0.9;">
                 Have a nice day <i class="fas fa-sparkles" style="font-size: 0.8rem;"></i>
             </div>
         </div>
     </div>
 
-    <div class="copyright-bottom">جميع الحقوق محفوظة للمطور أحمد</div>
+    <div class="copyright-bottom" id="copyright-text">جميع الحقوق محفوظة للمطور أحمد غنيم</div>
 
     <script>
+        const translations = {
+            ar: {
+                welcome: "مرحباً",
+                modeLight: "الوضع الفاتح",
+                modeDark: "الوضع الداكن",
+                webContrib: "مشارك في +",
+                accTitle: "الوصول",
+                fontSize: "حجم الخط",
+                contrast: "تباين عالي",
+                contrastOn: "تفعيل",
+                contrastOff: "إلغاء",
+                visitorTitle: "عدد زوار الموقع",
+                copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم",
+                wish: "Have a nice day",
+                visitCount: "+20 ألف"
+            },
+            en: {
+                welcome: "Welcome",
+                modeLight: "Light Mode",
+                modeDark: "Dark Mode",
+                webContrib: "Participant in +",
+                accTitle: "Accessibility",
+                fontSize: "Font Size",
+                contrast: "High Contrast",
+                contrastOn: "Enable",
+                contrastOff: "Disable",
+                visitorTitle: "Visitor Count",
+                copyright: "All Rights Reserved to Developer Ahmed Ghoneim",
+                wish: "Have a nice day",
+                visitCount: "+20K"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function updateLanguage() {
+            const t = translations[currentLang];
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+            
+            document.getElementById('welcome-msg').innerText = t.welcome;
+            document.getElementById('modeText').innerText = document.body.classList.contains('light-mode') ? t.modeDark : t.modeLight;
+            document.getElementById('langText').innerText = currentLang === 'ar' ? "English" : "العربية";
+            document.getElementById('web-contrib').innerHTML = `${t.webContrib}<span id="web-counter">100</span> Web`;
+            document.getElementById('acc-title').innerText = t.accTitle;
+            document.getElementById('font-size-label').innerText = t.fontSize;
+            document.getElementById('contrast-label').innerText = t.contrast;
+            
+            // تم تعديل هذا السطر ليغير عنوان الزر عند التمرير بدل تغيير النص الداخلي ليحافظ على شكل زر التبديل
+            document.getElementById('contrastBtn').title = document.body.classList.contains('high-contrast-text') ? t.contrastOff : t.contrastOn;
+            
+            document.getElementById('visitor-msg').innerText = t.visitorTitle;
+            document.getElementById('copyright-text').innerText = t.copyright;
+            // التحقق من الرقم الحالي للزوار
+            if(document.getElementById('visit-counter').innerText !== '0') {
+                 document.getElementById('visit-counter').innerText = t.visitCount;
+            }
+        }
+
         function animateCounter(id, targetValue, duration) {
             const countElement = document.getElementById(id);
             if(!countElement) return;
@@ -313,7 +478,7 @@
                     countElement.innerText = currentNum.toLocaleString();
                     requestAnimationFrame(updateCount);
                 } else {
-                    countElement.innerText = (id === 'visit-counter') ? "+20 ألف" : currentNum.toLocaleString();
+                    countElement.innerText = (id === 'visit-counter') ? translations[currentLang].visitCount : currentNum.toLocaleString();
                 }
             }
             requestAnimationFrame(updateCount);
@@ -334,8 +499,8 @@
             document.getElementById('web-counter').innerText = '0';
             document.getElementById('visit-counter').innerText = '0';
             setTimeout(() => { 
-                animateCounter('web-counter', 100, 1000); 
-                animateCounter('visit-counter', 20000, 1000);
+                animateCounter('web-counter', 100, 1500); 
+                animateCounter('visit-counter', 20000, 2000);
             }, 500);
         };
 
@@ -344,6 +509,7 @@
             settingsPanel.classList.remove('active'); 
             overlay.classList.remove('active'); 
             infoPopup.classList.remove('active');
+            document.getElementById('accBox').classList.remove('open');
         };
 
         closeBtn.onclick = closePanelFunc;
@@ -359,15 +525,43 @@
         const modeIcon = document.getElementById('modeIcon');
         modeToggle.onclick = () => {
             document.body.classList.toggle('light-mode');
-            if (document.body.classList.contains('light-mode')) {
-                modeText.innerText = "الوضع الداكن";
+            const isLight = document.body.classList.contains('light-mode');
+            modeText.innerText = isLight ? translations[currentLang].modeDark : translations[currentLang].modeLight;
+            if (isLight) {
                 modeIcon.classList.replace('fa-sun', 'fa-moon');
                 modeIcon.style.color = "#2a0202";
             } else {
-                modeText.innerText = "الوضع الفاتح";
                 modeIcon.classList.replace('fa-moon', 'fa-sun');
                 modeIcon.style.color = "#FFD700";
             }
+        };
+
+        const langToggle = document.getElementById('langToggle');
+        langToggle.onclick = () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            updateLanguage();
+        };
+
+        const accToggle = document.getElementById('accToggle');
+        const accBox = document.getElementById('accBox');
+        accToggle.onclick = () => accBox.classList.toggle('open');
+
+        let currentSize = 16;
+        function changeFontSize(step) {
+            currentSize += step;
+            if (currentSize >= 12 && currentSize <= 24) {
+                document.documentElement.style.setProperty('--base-font-size', currentSize + 'px');
+            } else {
+                currentSize -= step; 
+            }
+        }
+
+        const contrastBtn = document.getElementById('contrastBtn');
+        contrastBtn.onclick = () => {
+            document.body.classList.toggle('high-contrast-text');
+            const isOn = document.body.classList.contains('high-contrast-text');
+            contrastBtn.title = isOn ? translations[currentLang].contrastOff : translations[currentLang].contrastOn;
+            // يعتمد التغيير البصري للزر الآن بالكامل على الـ CSS لمظهر واقعي
         };
     </script>
 </body>
