@@ -40,11 +40,10 @@
         html { font-size: var(--base-font-size, 16px); }
 
         body, html {
-            height: 100%; width: 100%; overflow: hidden;
+            height: 100%; width: 100%; overflow-x: hidden;
             font-family: 'Cairo', sans-serif;
             color: var(--text-color);
             background: var(--bg-gradient);
-            /* --- التحديثات: منع النسخ وزيادة السلاسة --- */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -83,7 +82,7 @@
         .container {
             display: flex; flex-direction: column; 
             justify-content: flex-start; align-items: center; 
-            height: 100vh; padding: 20px; text-align: center;
+            min-height: 100vh; padding: 20px; text-align: center;
             padding-top: 5vh;
         }
 
@@ -153,7 +152,6 @@
         }
         
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; }
-        html[dir="ltr"] .verify-badge { margin: 0; }
 
         .main-content {
             width: 100%; max-width: 340px;
@@ -163,7 +161,19 @@
         }
         @keyframes fadeInAll { to { opacity: 1; } }
 
-        .links-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .links-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            width: 100%; 
+        }
+
+        .btn-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
         .btn {
             background: var(--btn-bg); backdrop-filter: blur(10px); 
@@ -172,41 +182,54 @@
             display: flex; align-items: center; justify-content: center; gap: 12px;
             border: 1px solid var(--border-color);
             opacity: 0; width: 100%;
-            /* --- التحديث: السلاسة وبروز الأزرار الأساسي --- */
             box-shadow: 0 4px 15px var(--shadow-color);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
 
-        /* --- التحديث: تأثير حركة السلاسة عند لمس الأزرار --- */
         .btn:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 8px 25px var(--shadow-color);
         }
 
-        /* --- التحديث: ظل الأيقونات لإعطاء إحساس البروز الكامل --- */
         .btn i {
             filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
         }
 
-        .btn:hover i {
-            transform: scale(1.15);
-            filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.8));
+        .btn:hover i { transform: scale(1.15); }
+
+        .redirect-timer {
+            background: rgba(184, 134, 11, 0.15);
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--text-color);
+            backdrop-filter: blur(5px);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            padding: 0 15px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        body.light-mode .btn i {
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
-        }
-        
-        body.light-mode .btn:hover i {
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+        .redirect-timer.active {
+            max-height: 40px;
+            opacity: 1;
+            margin-top: 8px;
+            padding: 8px 15px;
         }
 
-        .main-content .btn:nth-child(1) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
-        .main-content .btn:nth-child(2) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
-        .main-content .btn:nth-child(3) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
-        .main-content .btn:nth-child(4) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
-        .main-content .btn:nth-child(5) { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
+        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
+        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
+        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
+        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
+        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
 
         @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
 
@@ -294,160 +317,85 @@
         }
         .acc-box.open { padding: 12px; max-height: 200px; opacity: 1; }
         .acc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .acc-row:last-child { margin-bottom: 0; }
         .acc-btn {
             background: var(--btn-bg); border: 1px solid var(--border-color);
             color: var(--text-color); padding: 5px 12px; border-radius: 10px;
-            cursor: pointer; font-size: 0.75rem; transition: transform 0.2s, background 0.3s;
+            cursor: pointer; font-size: 0.75rem;
         }
-        .acc-btn:active { transform: scale(0.95); }
 
         .toggle-switch {
-            width: 44px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            position: relative;
-            cursor: pointer;
-            border: 1px solid var(--border-color);
+            width: 44px; height: 24px; background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px; position: relative; cursor: pointer;
+            border: 1px solid var(--border-color); display: flex; align-items: center;
             transition: background 0.4s ease, border-color 0.4s ease;
-            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
         }
-        body.light-mode .toggle-switch {
-            background: rgba(0, 0, 0, 0.15);
-            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
-        }
+        .toggle-switch.active { background: #4CAF50; border-color: #4CAF50; }
         .toggle-knob {
-            width: 18px;
-            height: 18px;
-            background: #ffffff;
-            border-radius: 50%;
-            position: absolute;
-            right: 3px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 18px; height: 18px; background: #ffffff; border-radius: 50%;
+            position: absolute; right: 3px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        html[dir="ltr"] .toggle-knob {
-            right: auto;
-            left: 3px;
-        }
-        body.high-contrast-text .toggle-switch {
-            background: #34C759; 
-            border-color: #34C759;
-        }
-        body.high-contrast-text .toggle-knob {
-            transform: translateX(-20px);
-        }
-        html[dir="ltr"] body.high-contrast-text .toggle-knob {
-            transform: translateX(20px);
-        }
+        html[dir="ltr"] .toggle-knob { right: auto; left: 3px; }
 
+        .toggle-switch.active .toggle-knob { transform: translateX(-20px); }
+        html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px); }
+
+        /* --- تحسين وضع التباين العالي (إصلاح عدم ظهور الخط) --- */
         body.high-contrast-text {
-            --btn-bg: rgba(0, 0, 0, 0.85);
-            --panel-bg: rgba(0, 0, 0, 0.95);
-            --border-color: rgba(255, 255, 255, 0.3);
+            --btn-bg: #000000 !important;
+            --panel-bg: #000000 !important;
+            --border-color: #ffffff !important;
+            --text-color: #ffffff !important;
         }
+        body.high-contrast-text * { font-weight: 900 !important; text-shadow: none !important; }
+        body.high-contrast-text .header-name,
+        body.high-contrast-text .wish,
+        body.high-contrast-text .info-icon,
+        body.high-contrast-text .fas.fa-sun {
+            color: #FFD700 !important; 
+        }
+        body.high-contrast-text .redirect-timer { background: #000 !important; border-color: #fff !important; }
+        body.high-contrast-text .lang-slider { background: #FFD700 !important; }
+
         body.light-mode.high-contrast-text {
-            --btn-bg: rgba(255, 255, 255, 0.95);
-            --panel-bg: rgba(255, 255, 255, 1);
-            --border-color: rgba(0, 0, 0, 0.4);
+            --btn-bg: #ffffff !important;
+            --panel-bg: #ffffff !important;
+            --border-color: #000000 !important;
+            --text-color: #000000 !important;
         }
-        body.high-contrast-text * { font-weight: 800 !important; }
-        body.high-contrast-text .header-name, 
-        body.high-contrast-text .wish { color: #ffffff !important; }
-        body.light-mode.high-contrast-text .header-name, 
-        body.light-mode.high-contrast-text .wish { color: #000000 !important; }
-
-        .lang-toggle-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(135deg, rgba(77, 184, 255, 0.15), rgba(77, 184, 255, 0.05));
-            padding: 10px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid rgba(77, 184, 255, 0.3);
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .lang-toggle-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, rgba(77, 184, 255, 0.25), rgba(77, 184, 255, 0.1));
-            box-shadow: 0 6px 20px rgba(77, 184, 255, 0.25);
-            border-color: rgba(77, 184, 255, 0.5);
-        }
-
-        .lang-toggle-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.6s;
-        }
-
-        .lang-toggle-btn:hover::before {
-            left: 100%;
-        }
-
-        .lang-text-styled {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #4db8ff;
-            letter-spacing: 0.5px;
-            z-index: 1;
-            transition: color 0.4s;
-        }
-
-        .lang-icon-wrapper {
-            background: #4db8ff;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(77, 184, 255, 0.4);
-            z-index: 1;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s;
-        }
-
-        .lang-toggle-btn:hover .lang-icon-wrapper {
-            transform: rotate(360deg) scale(1.1);
-        }
-
-        .lang-icon-wrapper i {
-            color: #fff;
-            font-size: 0.85rem;
-        }
-        
-        body.light-mode .lang-toggle-btn {
-            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 102, 204, 0.05));
-            border-color: rgba(0, 102, 204, 0.3);
-        }
-        body.light-mode .lang-toggle-btn:hover {
-            background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.08));
-            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.2);
-        }
-        body.light-mode .lang-text-styled {
-            color: #0066cc;
-        }
-        body.light-mode .lang-icon-wrapper {
-            background: #0066cc;
-            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.4);
-        }
-        body.high-contrast-text .lang-text-styled {
-            color: #ffffff !important;
-        }
-        body.light-mode.high-contrast-text .lang-text-styled {
+        body.light-mode.high-contrast-text .header-name,
+        body.light-mode.high-contrast-text .wish,
+        body.light-mode.high-contrast-text i:not(.lang-option),
+        body.light-mode.high-contrast-text .redirect-timer {
             color: #000000 !important;
         }
+        body.light-mode.high-contrast-text .lang-slider { background: #000000 !important; }
+
+        /* --- تصميم زر تغيير اللغة الاحترافي الجديد --- */
+        .lang-toggle-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--btn-bg); padding: 10px 15px; border-radius: 15px;
+            cursor: pointer; border: 1px solid var(--border-color); margin-top: 10px;
+        }
+        .lang-switch {
+            position: relative; width: 60px; height: 28px; background: rgba(0,0,0,0.3);
+            border-radius: 20px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid var(--border-color);
+            direction: ltr; /* فرض الاتجاه للتحكم الدقيق بالمؤشر */
+        }
+        body.light-mode .lang-switch { background: rgba(0,0,0,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .lang-slider {
+            position: absolute; top: 2px; left: 2px; width: 28px; height: 22px;
+            background: #4db8ff; border-radius: 15px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .lang-option {
+            font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%;
+            text-align: center; transition: color 0.4s ease; color: #888;
+        }
+        .lang-option.active { color: #ffffff; }
+        body.light-mode .lang-option { color: #888; }
+        body.light-mode .lang-option.active { color: #ffffff; }
+
     </style>
 </head>
 <body class="">
@@ -468,9 +416,11 @@
         </div>
 
         <div id="langToggle" class="lang-toggle-btn">
-            <span id="langText" class="lang-text-styled">English</span>
-            <div class="lang-icon-wrapper">
-                <i class="fas fa-globe"></i>
+            <span id="lang-label-text" style="font-size: 0.85rem; font-weight: 600; color: var(--text-color);">اللغة</span>
+            <div class="lang-switch" dir="ltr">
+                <div class="lang-slider" id="langSlider"></div>
+                <span class="lang-option active" id="lang-ar">AR</span>
+                <span class="lang-option" id="lang-en">EN</span>
             </div>
         </div>
 
@@ -493,7 +443,7 @@
             </div>
             <div class="acc-row">
                 <span id="contrast-label" style="font-size: 0.75rem;">تباين عالي</span>
-                <div class="toggle-switch" id="contrastBtn" title="تفعيل / إلغاء">
+                <div class="toggle-switch" id="contrastBtn">
                     <div class="toggle-knob"></div>
                 </div>
             </div>
@@ -503,7 +453,6 @@
                 <i class="fas fa-users" style="font-size: 0.7rem; opacity: 0.7;"></i>
                 <span id="visit-counter">0</span>
             </div>
-            
             <div class="info-popup" id="infoPopup">
                 <i class="fas fa-exclamation-circle info-icon"></i>
                 <span class="info-text" id="visitor-msg">عدد زوار الموقع</span>
@@ -519,13 +468,28 @@
         </div>
         <div class="main-content">
             <div class="links-container">
-                <a href="https://www.facebook.com/share/18k8Qf8y4P/" target="_blank" class="btn"><i class="fab fa-facebook" style="color: #1877F2;"></i> Facebook</a>
-                <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" target="_blank" class="btn"><i class="fab fa-instagram" style="color: #E4405F;"></i> Instagram</a>
-                <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" target="_blank" class="btn"><i class="fab fa-tiktok"></i> TikTok</a>
-                <a href="https://t.me/ahmed_8oneim" target="_blank" class="btn"><i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram</a>
-                <a href="mailto:qwrtreu1245@gmail.com" class="btn"><i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail</a>
+                <div class="btn-wrapper">
+                    <a href="https://www.facebook.com/share/18k8Qf8y4P/" class="btn"><i class="fab fa-facebook" style="color: #1877F2;"></i> Facebook</a>
+                    <div class="redirect-timer"></div>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="https://www.instagram.com/ahmed.8oneim?igsh=cHZnMTRpMTV2aTJk" class="btn"><i class="fab fa-instagram" style="color: #E4405F;"></i> Instagram</a>
+                    <div class="redirect-timer"></div>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="https://www.tiktok.com/@a7med.8oneim?_r=1&_t=ZS-956Zeogmk80" class="btn"><i class="fab fa-tiktok"></i> TikTok</a>
+                    <div class="redirect-timer"></div>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="https://t.me/ahmed_8oneim" class="btn"><i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram</a>
+                    <div class="redirect-timer"></div>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="mailto:qwrtreu1245@gmail.com" class="btn"><i class="fas fa-envelope" style="color: #EA4335;"></i> Gmail</a>
+                    <div class="redirect-timer"></div>
+                </div>
             </div>
-            <div class="wish" id="day-wish" style="font-family: 'Dancing Script', cursive; font-size: 0.95rem; color: #B8860B; margin-top: 25px; display: flex; align-items: center; gap: 8px; opacity: 0.9;">
+            <div class="wish" id="day-wish" style="font-family: 'Dancing Script', cursive; font-size: 0.95rem; color: #B8860B; margin-top: 25px; display: flex; align-items: center; gap: 8px;">
                 Have a nice day <i class="fas fa-sparkles" style="font-size: 0.8rem;"></i>
             </div>
         </div>
@@ -539,90 +503,116 @@
                 welcome: "مرحباً",
                 modeLight: "الوضع الفاتح",
                 modeDark: "الوضع الداكن",
+                languageLabel: "اللغة",
                 webContrib: "مشارك في +",
                 accTitle: "الوصول",
                 fontSize: "حجم الخط",
                 contrast: "تباين عالي",
-                contrastOn: "تفعيل",
-                contrastOff: "إلغاء",
                 visitorTitle: "عدد زوار الموقع",
                 copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم",
-                wish: "Have a nice day",
-                visitCount: "+20 ألف"
+                redirect: "سيتم انتقالك خلال ",
+                redirectingNow: "جاري الانتقال..."
             },
             en: {
                 welcome: "Welcome",
                 modeLight: "Light Mode",
                 modeDark: "Dark Mode",
+                languageLabel: "Language",
                 webContrib: "Participant in +",
                 accTitle: "Accessibility",
                 fontSize: "Font Size",
                 contrast: "High Contrast",
-                contrastOn: "Enable",
-                contrastOff: "Disable",
                 visitorTitle: "Visitor Count",
                 copyright: "All Rights Reserved to Developer Ahmed Ghoneim",
-                wish: "Have a nice day",
-                visitCount: "+20K"
+                redirect: "Redirecting in ",
+                redirectingNow: "Redirecting..."
             }
         };
 
         let currentLang = 'ar';
+        let isRedirecting = false;
+        let redirectInterval;
+
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (isRedirecting) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                e.preventDefault();
+                isRedirecting = true;
+                const targetUrl = this.href;
+                const timerDisplay = this.nextElementSibling;
+                let count = 3;
+
+                document.querySelectorAll('.redirect-timer').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                timerDisplay.classList.add('active');
+                const t = translations[currentLang];
+                timerDisplay.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${t.redirect} ${count}</span>`;
+
+                redirectInterval = setInterval(() => {
+                    count--;
+                    if (count > 0) {
+                        timerDisplay.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${t.redirect} ${count}</span>`;
+                    } else if (count === 0) {
+                        clearInterval(redirectInterval);
+                        timerDisplay.innerHTML = `<i class="fas fa-check-circle" style="color: #4CAF50;"></i> <span>${t.redirectingNow}</span>`;
+                        
+                        setTimeout(() => {
+                            window.open(targetUrl, '_blank');
+                            
+                            setTimeout(() => {
+                                timerDisplay.classList.remove('active');
+                                isRedirecting = false;
+                            }, 500);
+                        }, 500);
+                    }
+                }, 1000);
+            });
+        });
 
         function updateLanguage() {
             const t = translations[currentLang];
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             document.documentElement.lang = currentLang;
-            
             document.getElementById('welcome-msg').innerText = t.welcome;
             document.getElementById('modeText').innerText = document.body.classList.contains('light-mode') ? t.modeDark : t.modeLight;
-            document.getElementById('langText').innerText = currentLang === 'ar' ? "English" : "العربية";
+            document.getElementById('lang-label-text').innerText = t.languageLabel;
             document.getElementById('web-contrib').innerHTML = `${t.webContrib}<span id="web-counter">100</span> Web`;
             document.getElementById('acc-title').innerText = t.accTitle;
             document.getElementById('font-size-label').innerText = t.fontSize;
             document.getElementById('contrast-label').innerText = t.contrast;
-            
-            document.getElementById('contrastBtn').title = document.body.classList.contains('high-contrast-text') ? t.contrastOff : t.contrastOn;
-            
             document.getElementById('visitor-msg').innerText = t.visitorTitle;
             document.getElementById('copyright-text').innerText = t.copyright;
-            if(document.getElementById('visit-counter').innerText !== '0') {
-                 document.getElementById('visit-counter').innerText = t.visitCount;
-            }
-        }
 
-        function animateCounter(id, targetValue, duration) {
-            const countElement = document.getElementById(id);
-            if(!countElement) return;
-            let startTime = null;
-            function updateCount(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const progress = Math.min((currentTime - startTime) / duration, 1);
-                const currentNum = Math.floor(progress * targetValue);
-                if (progress < 1) {
-                    countElement.innerText = currentNum.toLocaleString();
-                    requestAnimationFrame(updateCount);
-                } else {
-                    countElement.innerText = (id === 'visit-counter') ? translations[currentLang].visitCount : currentNum.toLocaleString();
-                }
+            const langSlider = document.getElementById('langSlider');
+            const langAr = document.getElementById('lang-ar');
+            const langEn = document.getElementById('lang-en');
+            
+            if (currentLang === 'ar') {
+                langSlider.style.transform = 'translateX(0)';
+                langAr.classList.add('active');
+                langEn.classList.remove('active');
+            } else {
+                langSlider.style.transform = 'translateX(28px)';
+                langEn.classList.add('active');
+                langAr.classList.remove('active');
             }
-            requestAnimationFrame(updateCount);
         }
 
         const settingsBtn = document.getElementById('settingsBtn');
         const settingsPanel = document.getElementById('settingsPanel');
         const overlay = document.getElementById('overlay');
         const closeBtn = document.getElementById('closeBtn');
-        const glassCounter = document.getElementById('glassCounter');
-        const infoPopup = document.getElementById('infoPopup');
 
         settingsBtn.onclick = () => { 
             settingsBtn.classList.add('rotate');
             settingsPanel.classList.add('active'); 
             overlay.classList.add('active'); 
-            
-            document.getElementById('web-counter').innerText = '0';
-            document.getElementById('visit-counter').innerText = '0';
             setTimeout(() => { 
                 animateCounter('web-counter', 100, 1500); 
                 animateCounter('visit-counter', 20000, 2000);
@@ -633,43 +623,49 @@
             settingsBtn.classList.remove('rotate');
             settingsPanel.classList.remove('active'); 
             overlay.classList.remove('active'); 
-            infoPopup.classList.remove('active');
-            document.getElementById('accBox').classList.remove('open');
         };
 
         closeBtn.onclick = closePanelFunc;
         overlay.onclick = closePanelFunc;
 
-        glassCounter.onclick = (e) => {
-            e.stopPropagation();
-            infoPopup.classList.toggle('active');
-        };
+        function animateCounter(id, target, duration) {
+            const el = document.getElementById(id);
+            let start = 0;
+            const step = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += step;
+                if (start >= target) {
+                    el.innerText = id === 'visit-counter' ? (currentLang === 'ar' ? "+20 ألف" : "+20K") : Math.floor(target);
+                    clearInterval(timer);
+                } else {
+                    el.innerText = Math.floor(start).toLocaleString();
+                }
+            }, 16);
+        }
 
-        const modeToggle = document.getElementById('modeToggle');
-        const modeText = document.getElementById('modeText');
-        const modeIcon = document.getElementById('modeIcon');
-        modeToggle.onclick = () => {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            modeText.innerText = isLight ? translations[currentLang].modeDark : translations[currentLang].modeLight;
-            if (isLight) {
-                modeIcon.classList.replace('fa-sun', 'fa-moon');
-                modeIcon.style.color = "#2a0202";
+        function updateModeIcon() {
+            const modeIcon = document.getElementById('modeIcon');
+            if(document.body.classList.contains('light-mode')) {
+                modeIcon.className = 'fas fa-moon';
+                modeIcon.style.color = '#555';
             } else {
-                modeIcon.classList.replace('fa-moon', 'fa-sun');
-                modeIcon.style.color = "#FFD700";
+                modeIcon.className = 'fas fa-sun';
+                modeIcon.style.color = '#FFD700';
             }
+        }
+
+        document.getElementById('modeToggle').onclick = () => {
+            document.body.classList.toggle('light-mode');
+            updateModeIcon();
+            updateLanguage();
         };
 
-        const langToggle = document.getElementById('langToggle');
-        langToggle.onclick = () => {
+        document.getElementById('langToggle').onclick = () => {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             updateLanguage();
         };
 
-        const accToggle = document.getElementById('accToggle');
-        const accBox = document.getElementById('accBox');
-        accToggle.onclick = () => accBox.classList.toggle('open');
+        document.getElementById('accToggle').onclick = () => document.getElementById('accBox').classList.toggle('open');
 
         let currentSize = 16;
         function changeFontSize(step) {
@@ -681,11 +677,14 @@
             }
         }
 
-        const contrastBtn = document.getElementById('contrastBtn');
-        contrastBtn.onclick = () => {
+        document.getElementById('contrastBtn').onclick = function() {
+            this.classList.toggle('active');
             document.body.classList.toggle('high-contrast-text');
-            const isOn = document.body.classList.contains('high-contrast-text');
-            contrastBtn.title = isOn ? translations[currentLang].contrastOff : translations[currentLang].contrastOn;
+        };
+        
+        document.getElementById('glassCounter').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('infoPopup').classList.toggle('active');
         };
     </script>
 </body>
