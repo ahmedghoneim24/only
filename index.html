@@ -33,14 +33,16 @@
             transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
                         color 0.5s ease, 
                         border-color 0.5s ease, 
-                        box-shadow 0.5s ease,
-                        transform 0.6s ease;
+                        box-shadow 0.5s ease;
         }
         
         html { font-size: var(--base-font-size, 16px); }
 
         body, html {
-            height: 100%; width: 100%; overflow-x: hidden;
+            height: 100%; width: 100%; 
+            overflow: hidden !important; 
+            overscroll-behavior: none !important; 
+            touch-action: none !important; 
             font-family: 'Cairo', sans-serif;
             color: var(--text-color);
             background: var(--bg-gradient);
@@ -80,40 +82,11 @@
         }
 
         .container {
-            position: relative; 
-            z-index: 1;         
             display: flex; flex-direction: column; 
             justify-content: flex-start; align-items: center; 
             min-height: 100vh; padding: 20px; text-align: center;
             padding-top: 5vh;
         }
-
-        /* --- صورة الغلاف --- */
-        .cover-photo {
-            position: absolute;
-            top: 3vh; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80vw; 
-            max-width: 300px; 
-            height: 140px; 
-            background-image: url('https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/0503c20a-aced-4f76-8a44-7ae269b6123a.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 0; 
-            pointer-events: none;
-            -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
-            mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 10%, transparent 80%);
-            opacity: 0;
-            /* تم زيادة وقت التأخير لـ 2.5 ثانية عشان تظهر بعد ما الموقع يفتح */
-            animation: fadeInCover 1.5s ease-out 2.5s forwards; 
-        }
-
-        @keyframes fadeInCover {
-            to { opacity: 1; }
-        }
-        /* -------------------------------------- */
 
         .settings-icon {
             position: fixed; top: 20px; left: 20px;
@@ -143,15 +116,10 @@
             visibility: hidden;
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .settings-panel.active { 
-            transform: scale(1); 
-            opacity: 1;
-            visibility: visible;
-        }
+        .settings-panel.active { transform: scale(1); opacity: 1; visibility: visible; }
         html[dir="ltr"] .settings-panel { direction: ltr; transform-origin: top left; left: 20px; }
 
         .profile-pic {
-            position: relative; z-index: 2; 
             width: 90px; height: 90px; border-radius: 50%;
             background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
             background-size: cover; background-position: center;
@@ -159,16 +127,16 @@
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0;
             animation: slideDownPic 1s ease-out 2.5s forwards;
+            cursor: pointer;
+            position: relative;
         }
         @keyframes slideDownPic { to { opacity: 1; transform: translateY(0); } }
 
         .header-name-wrapper {
-            position: relative; z-index: 2;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; opacity: 0; transform: translateY(15px);
             animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatName 3s ease-in-out infinite 3.7s;
-            direction: ltr;
-            gap: 6px;
+            direction: ltr; gap: 6px;
         }
         @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes floatName {
@@ -176,16 +144,10 @@
             50% { transform: translateY(-6px); }
         }
 
-        .header-name { 
-            font-family: 'Dancing Script', cursive; 
-            font-size: 1.9rem; 
-            color: #B8860B; 
-        }
-        
+        .header-name { font-family: 'Dancing Script', cursive; font-size: 1.9rem; color: #B8860B; }
         .verify-badge { color: #1DA1F2; font-size: 1.1rem; }
 
         .main-content {
-            position: relative; z-index: 2;
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
             opacity: 0; animation: fadeInAll 0.5s ease-in 2.4s forwards;
@@ -198,6 +160,8 @@
             flex-direction: column; 
             gap: 12px; 
             width: 100%; 
+            touch-action: none; 
+            position: relative;
         }
 
         .btn-wrapper {
@@ -205,7 +169,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            cursor: grab;
+            -webkit-user-drag: none;
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            border-radius: 18px;
         }
+
+        .btn-wrapper:active { cursor: grabbing; }
 
         .btn {
             background: var(--btn-bg); backdrop-filter: blur(10px); 
@@ -227,55 +200,25 @@
             filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
         }
-
         .btn:hover i { transform: scale(1.15); }
 
         .redirect-timer {
-            background: rgba(184, 134, 11, 0.15);
-            border: 1px solid rgba(184, 134, 11, 0.3);
-            border-radius: 12px;
-            font-size: 0.75rem;
-            color: var(--text-color);
-            backdrop-filter: blur(5px);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-height: 0;
-            opacity: 0;
-            margin-top: 0;
-            padding: 0 15px;
-            overflow: hidden;
+            background: rgba(184, 134, 11, 0.15); border: 1px solid rgba(184, 134, 11, 0.3);
+            border-radius: 12px; font-size: 0.75rem; color: var(--text-color);
+            backdrop-filter: blur(5px); font-weight: 600; display: flex;
+            align-items: center; justify-content: center; max-height: 0;
+            opacity: 0; margin-top: 0; padding: 0 15px; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 100%;
-            box-sizing: border-box;
+            width: 100%; box-sizing: border-box;
         }
-
-        .redirect-timer.active {
-            max-height: 50px;
-            opacity: 1;
-            margin-top: 8px;
-            padding: 8px 15px;
-        }
+        .redirect-timer.active { max-height: 50px; opacity: 1; margin-top: 8px; padding: 8px 15px; }
 
         .cancel-btn {
-            background: transparent;
-            border: 1px solid #ff4d4d;
-            color: #ff4d4d;
-            border-radius: 10px;
-            padding: 2px 8px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
+            background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d;
+            border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; cursor: pointer;
+            transition: all 0.3s ease; font-family: 'Cairo', sans-serif; font-weight: 700;
         }
-        .cancel-btn:hover { 
-            background: #ff4d4d; 
-            color: #fff; 
-            transform: scale(1.05); 
-            box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3);
-        }
+        .cancel-btn:hover { background: #ff4d4d; color: #fff; transform: scale(1.05); box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3); }
 
         .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
         .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
@@ -285,74 +228,65 @@
 
         @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
 
-        .settings-counter-wrapper {
-            margin-top: 15px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .sortable-fallback.sortable-drag {
+            opacity: 1 !important;
+            transform: scale(0.9) translateZ(0) !important; 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9) !important;
+            z-index: 9999 !important;
+            transition: none !important; 
+            cursor: grabbing !important;
         }
 
+        body.light-mode .sortable-fallback.sortable-drag { 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important; 
+        }
+
+        .sortable-fallback:not(.sortable-drag) {
+            opacity: 0 !important;
+            display: none !important;
+            transition: none !important;
+        }
+
+        .sortable-ghost {
+            opacity: 1 !important;
+            transform: scale(1) translateZ(0) !important;
+        }
+        
+        .sortable-ghost .btn {
+            opacity: 0.3 !important;
+            transform: scale(0.95) !important;
+            border: 1px dashed rgba(255, 255, 255, 0.4) !important;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        body.light-mode .sortable-ghost .btn {
+            border: 1px dashed rgba(0, 0, 0, 0.4) !important;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .settings-counter-wrapper { margin-top: 15px; position: relative; display: flex; flex-direction: column; align-items: center; }
         .glass-counter-box {
-            font-family: 'Cairo', sans-serif; 
-            font-size: 11px;
-            color: var(--text-color); 
-            font-weight: 700; 
-            background: var(--btn-bg);
-            backdrop-filter: blur(10px);
-            padding: 5px 12px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            z-index: 2;
+            font-family: 'Cairo', sans-serif; font-size: 11px; color: var(--text-color); 
+            font-weight: 700; background: var(--btn-bg); backdrop-filter: blur(10px);
+            padding: 5px 12px; border-radius: 12px; border: 1px solid var(--border-color);
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; z-index: 2;
         }
-
         .info-popup {
-            position: absolute;
-            top: calc(100% + 8px); 
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px);
-            width: max-content;
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 6px 10px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1001;
+            position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-10px);
+            width: max-content; background: var(--panel-bg); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color); border-radius: 10px; padding: 6px 10px;
+            display: flex; align-items: center; gap: 5px; box-shadow: 0 5px 15px var(--shadow-color);
+            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1001;
         }
-        .info-popup.active {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .info-popup.active { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
         .info-icon { color: #FFD700; font-size: 0.8rem; }
         .info-text { font-size: 0.65rem; font-weight: 600; color: var(--text-color); }
 
         .copyright-bottom { 
-            position: fixed; 
-            bottom: 8px; 
-            left: 50%;
-            transform: translateX(-50%); 
-            font-family: 'Cairo', sans-serif; 
-            font-size: 7.5px; 
-            color: #8e8e8e; 
-            opacity: 0; 
-            white-space: nowrap;
-            animation: fadeInAll 0.8s ease-in 3.6s forwards; 
-            letter-spacing: 0.5px;
+            position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); 
+            font-family: 'Cairo', sans-serif; font-size: 7.5px; color: #8e8e8e; 
+            opacity: 0; white-space: nowrap; animation: fadeInAll 0.8s ease-in 3.6s forwards; letter-spacing: 0.5px;
         }
-
         .fa-tiktok { color: #ffffff; text-shadow: -1.5px -1.5px 0 #25F4EE, 1.5px 1.5px 0 #FE2C55; }
         body.light-mode .fa-tiktok { color: #000000; }
         .mini-verify { color: #1DA1F2; font-size: 0.7rem; margin-right: 3px; }
@@ -387,50 +321,20 @@
             position: absolute; right: 3px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         html[dir="ltr"] .toggle-knob { right: auto; left: 3px; }
-
         .toggle-switch.active .toggle-knob { transform: translateX(-20px); }
         html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px); }
 
-        body.high-contrast-text {
-            --btn-bg: #000000 !important;
-            --panel-bg: #000000 !important;
-            --border-color: #ffffff !important;
-            --text-color: #ffffff !important;
-        }
+        body.high-contrast-text { --btn-bg: #000 !important; --panel-bg: #000 !important; --border-color: #fff !important; --text-color: #fff !important; }
         body.high-contrast-text * { font-weight: 900 !important; text-shadow: none !important; }
-        body.high-contrast-text .header-name,
-        body.high-contrast-text .wish,
-        body.high-contrast-text .info-icon,
-        body.high-contrast-text .fas.fa-sun {
-            color: #FFD700 !important; 
-        }
+        body.high-contrast-text .header-name, body.high-contrast-text .wish, body.high-contrast-text .info-icon, body.high-contrast-text .fas.fa-sun { color: #FFD700 !important; }
         body.high-contrast-text .redirect-timer { background: #000 !important; border-color: #fff !important; }
-        body.high-contrast-text .lang-slider,
-        body.high-contrast-text .theme-slider { background: #FFD700 !important; }
+        body.high-contrast-text .lang-slider, body.high-contrast-text .theme-slider { background: #FFD700 !important; }
         body.high-contrast-text .cancel-btn { border-color: #fff !important; color: #fff !important; background: #f00 !important; }
 
-        body.light-mode.high-contrast-text {
-            --btn-bg: #ffffff !important;
-            --panel-bg: #ffffff !important;
-            --border-color: #000000 !important;
-            --text-color: #000000 !important;
-        }
-        
-        body.light-mode.high-contrast-text .redirect-timer {
-            color: #000000 !important;
-            background: #ffffff !important;
-            border-color: #000000 !important;
-        }
-        
-        body.light-mode.high-contrast-text .header-name,
-        body.light-mode.high-contrast-text .wish,
-        body.light-mode.high-contrast-text i:not(.lang-option),
-        body.light-mode.high-contrast-text .redirect-timer span {
-            color: #000000 !important;
-        }
-        
-        body.light-mode.high-contrast-text .lang-slider,
-        body.light-mode.high-contrast-text .theme-slider { background: #000000 !important; }
+        body.light-mode.high-contrast-text { --btn-bg: #fff !important; --panel-bg: #fff !important; --border-color: #000 !important; --text-color: #000 !important; }
+        body.light-mode.high-contrast-text .redirect-timer { color: #000 !important; background: #fff !important; border-color: #000 !important; }
+        body.light-mode.high-contrast-text .header-name, body.light-mode.high-contrast-text .wish, body.light-mode.high-contrast-text i:not(.lang-option), body.light-mode.high-contrast-text .redirect-timer span { color: #000 !important; }
+        body.light-mode.high-contrast-text .lang-slider, body.light-mode.high-contrast-text .theme-slider { background: #000 !important; }
 
         .toggle-row-btn {
             display: flex; align-items: center; justify-content: space-between;
@@ -440,8 +344,7 @@
         .custom-switch {
             position: relative; width: 60px; height: 28px; background: rgba(0,0,0,0.3);
             border-radius: 20px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid var(--border-color);
-            direction: ltr; 
+            padding: 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid var(--border-color); direction: ltr; 
         }
         body.light-mode .custom-switch { background: rgba(0,0,0,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
         .custom-slider {
@@ -449,12 +352,8 @@
             border-radius: 15px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
             z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        
         .lang-slider { background: #4db8ff; }
-        .lang-option {
-            font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%;
-            text-align: center; transition: color 0.4s ease; color: #888;
-        }
+        .lang-option { font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%; text-align: center; transition: color 0.4s ease; color: #888; }
         .lang-option.active { color: #ffffff; }
         body.light-mode .lang-option { color: #888; }
         body.light-mode .lang-option.active { color: #ffffff; }
@@ -463,11 +362,48 @@
         .theme-slider { background: #FFD700; }
         body.light-mode .theme-slider { background: #555; transform: translateX(28px); }
         .theme-icon { font-size: 0.75rem; z-index: 2; transition: color 0.4s ease; }
-        #icon-sun { color: #fff; } 
-        #icon-moon { color: #888; }
+        #icon-sun { color: #fff; } #icon-moon { color: #888; }
         body.light-mode #icon-sun { color: #888; }
         body.light-mode #icon-moon { color: #fff; }
 
+        /* --- أكواد نافذة الباركود --- */
+        .qr-popup {
+            position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--panel-bg); backdrop-filter: blur(25px);
+            z-index: 1002; box-shadow: 0 10px 40px var(--shadow-color);
+            padding: 30px; border-radius: 25px; border: 1px solid var(--border-color);
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            opacity: 0; visibility: hidden; 
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 280px; text-align: center;
+        }
+
+        .qr-popup.active { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
+
+        .qr-code-container { 
+            background: #ffffff; padding: 15px; border-radius: 20px; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .qr-code-container img { width: 180px; height: 180px; display: block; }
+
+        .close-qr { 
+            position: absolute; top: 15px; left: 15px; 
+            cursor: pointer; color: var(--text-color); opacity: 0.6; transition: 0.3s;
+        }
+        .close-qr:hover { opacity: 1; transform: scale(1.1); }
+        html[dir="ltr"] .close-qr { left: auto; right: 15px; }
+
+        .copy-link-btn {
+            background: var(--btn-bg); color: var(--text-color); 
+            border: 1px solid var(--border-color); padding: 10px 20px; 
+            border-radius: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; 
+            font-weight: bold; display: flex; gap: 8px; align-items: center; 
+            transition: all 0.3s ease; width: 100%; justify-content: center;
+        }
+        .copy-link-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        body.light-mode .copy-link-btn:hover { background: rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="">
@@ -478,6 +414,17 @@
 
     <i class="fas fa-cog settings-icon" id="settingsBtn"></i>
     <div class="overlay" id="overlay"></div>
+
+    <div class="qr-popup" id="qrPopup">
+        <i class="fas fa-times close-qr" id="closeQrBtn"></i>
+        <h3 id="qr-title" style="font-size: 1.1rem; font-weight: 700;">مشاركة الموقع الخاص بي</h3>
+        <div class="qr-code-container">
+            <img id="qrImage" src="" alt="QR Code">
+        </div>
+        <button class="copy-link-btn" id="copyLinkBtn">
+            <i class="fas fa-copy"></i> <span id="copy-text">نسخ الرابط</span>
+        </button>
+    </div>
 
     <div class="settings-panel" id="settingsPanel">
         <i class="fas fa-times close-panel" id="closeBtn" style="position: absolute; top: 15px; left: 15px; cursor: pointer; opacity: 0.5;"></i>
@@ -537,8 +484,6 @@
     </div>
 
     <div class="container">
-        <div class="cover-photo"></div>
-        
         <div class="profile-pic"></div>
         <div class="header-name-wrapper">
             <div class="header-name">Ahmed Ghoneim</div>
@@ -575,52 +520,24 @@
 
     <div class="copyright-bottom" id="copyright-text">جميع الحقوق محفوظة للمطور أحمد غنيم</div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
     <script>
         const translations = {
-            ar: {
-                welcome: "مرحباً",
-                modeLight: "الوضع الفاتح",
-                modeDark: "الوضع الداكن",
-                languageLabel: "اللغة",
-                webContrib: "مشارك في +",
-                accTitle: "الوصول",
-                fontSize: "حجم الخط",
-                contrast: "تباين عالي",
-                visitorTitle: "عدد زوار الموقع",
-                copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم",
-                redirect: "سيتم انتقالك خلال",
-                redirectingNow: "جاري الانتقال...",
-                cancel: "إلغاء"
-            },
-            en: {
-                welcome: "Welcome",
-                modeLight: "Light Mode",
-                modeDark: "Dark Mode",
-                languageLabel: "Language",
-                webContrib: "Participant in +",
-                accTitle: "Accessibility",
-                fontSize: "Font Size",
-                contrast: "High Contrast",
-                visitorTitle: "Visitor Count",
-                copyright: "All Rights Reserved to Developer Ahmed Ghoneim",
-                redirect: "Redirecting in",
-                redirectingNow: "Redirecting...",
-                cancel: "Cancel"
-            }
+            ar: { welcome: "مرحباً", modeLight: "الوضع الفاتح", modeDark: "الوضع الداكن", languageLabel: "اللغة", webContrib: "مشارك في +", accTitle: "الوصول", fontSize: "حجم الخط", contrast: "تباين عالي", visitorTitle: "عدد زوار الموقع", copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم", redirect: "سيتم انتقالك خلال", redirectingNow: "جاري الانتقال...", cancel: "إلغاء", shareSite: "مشاركة الموقع الخاص بي", copyLink: "نسخ الرابط", copied: "تم النسخ!" },
+            en: { welcome: "Welcome", modeLight: "Light Mode", modeDark: "Dark Mode", languageLabel: "Language", webContrib: "Participant in +", accTitle: "Accessibility", fontSize: "Font Size", contrast: "High Contrast", visitorTitle: "Visitor Count", copyright: "All Rights Reserved to Developer Ahmed Ghoneim", redirect: "Redirecting in", redirectingNow: "Redirecting...", cancel: "Cancel", shareSite: "Share my website", copyLink: "Copy Link", copied: "Copied!" }
         };
 
         let currentLang = 'ar';
         let isRedirecting = false;
         let redirectInterval;
-
-        let baseVisits = 20560;
+        
+        let baseVisits = 20995;
         let totalVisits = baseVisits;
 
         fetch('https://api.counterapi.dev/v1/ahmedghoneim_portfolio/visits/up')
             .then(response => response.json())
-            .then(data => {
-                totalVisits = baseVisits + data.count;
-            })
+            .then(data => { totalVisits = baseVisits + data.count; })
             .catch(error => {
                 let localVisits = localStorage.getItem('local_visits') || 0;
                 localVisits++;
@@ -630,10 +547,7 @@
 
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
-                if (isRedirecting) {
-                    e.preventDefault();
-                    return;
-                }
+                if (isRedirecting) { e.preventDefault(); return; }
                 
                 e.preventDefault();
                 isRedirecting = true;
@@ -663,8 +577,7 @@
                 const timerText = timerDisplay.querySelector('#timer-text');
 
                 cancelBtn.addEventListener('click', (ev) => {
-                    ev.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault(); ev.stopPropagation();
                     clearInterval(redirectInterval);
                     timerDisplay.classList.remove('active');
                     isRedirecting = false;
@@ -672,9 +585,8 @@
 
                 redirectInterval = setInterval(() => {
                     count--;
-                    if (count > 0) {
-                        countSpan.innerText = count;
-                    } else if (count === 0) {
+                    if (count > 0) { countSpan.innerText = count; } 
+                    else if (count === 0) {
                         clearInterval(redirectInterval);
                         cancelBtn.style.display = 'none'; 
                         timerIcon.className = 'fas fa-check-circle';
@@ -683,7 +595,6 @@
                         
                         setTimeout(() => {
                             window.open(targetUrl, '_blank');
-                            
                             setTimeout(() => {
                                 timerDisplay.classList.remove('active');
                                 isRedirecting = false;
@@ -707,6 +618,8 @@
             document.getElementById('contrast-label').innerText = t.contrast;
             document.getElementById('visitor-msg').innerText = t.visitorTitle;
             document.getElementById('copyright-text').innerText = t.copyright;
+            document.getElementById('qr-title').innerText = t.shareSite;
+            document.getElementById('copy-text').innerText = t.copyLink;
 
             const langSlider = document.getElementById('langSlider');
             const langAr = document.getElementById('lang-ar');
@@ -714,12 +627,10 @@
             
             if (currentLang === 'ar') {
                 langSlider.style.transform = 'translateX(0)';
-                langAr.classList.add('active');
-                langEn.classList.remove('active');
+                langAr.classList.add('active'); langEn.classList.remove('active');
             } else {
                 langSlider.style.transform = 'translateX(28px)';
-                langEn.classList.add('active');
-                langAr.classList.remove('active');
+                langEn.classList.add('active'); langAr.classList.remove('active');
             }
         }
 
@@ -741,11 +652,12 @@
         const closePanelFunc = () => {
             settingsBtn.classList.remove('rotate');
             settingsPanel.classList.remove('active'); 
-            overlay.classList.remove('active'); 
+            if (!qrPopup.classList.contains('active')) {
+                overlay.classList.remove('active'); 
+            }
         };
 
         closeBtn.onclick = closePanelFunc;
-        overlay.onclick = closePanelFunc;
 
         function animateCounter(id, target, duration) {
             const el = document.getElementById(id);
@@ -762,37 +674,77 @@
             }, 16);
         }
 
-        document.getElementById('modeToggle').onclick = () => {
-            document.body.classList.toggle('light-mode');
-            updateLanguage();
-        };
-
-        document.getElementById('langToggle').onclick = () => {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            updateLanguage();
-        };
-
+        document.getElementById('modeToggle').onclick = () => { document.body.classList.toggle('light-mode'); updateLanguage(); };
+        document.getElementById('langToggle').onclick = () => { currentLang = currentLang === 'ar' ? 'en' : 'ar'; updateLanguage(); };
         document.getElementById('accToggle').onclick = () => document.getElementById('accBox').classList.toggle('open');
 
         let currentSize = 16;
         function changeFontSize(step) {
             currentSize += step;
-            if (currentSize >= 12 && currentSize <= 24) {
-                document.documentElement.style.setProperty('--base-font-size', currentSize + 'px');
-            } else {
-                currentSize -= step; 
-            }
+            if (currentSize >= 12 && currentSize <= 24) { document.documentElement.style.setProperty('--base-font-size', currentSize + 'px'); } 
+            else { currentSize -= step; }
         }
 
-        document.getElementById('contrastBtn').onclick = function() {
-            this.classList.toggle('active');
-            document.body.classList.toggle('high-contrast-text');
-        };
+        document.getElementById('contrastBtn').onclick = function() { this.classList.toggle('active'); document.body.classList.toggle('high-contrast-text'); };
+        document.getElementById('glassCounter').onclick = (e) => { e.stopPropagation(); document.getElementById('infoPopup').classList.toggle('active'); };
+
+        const linksContainerEl = document.querySelector('.links-container');
         
-        document.getElementById('glassCounter').onclick = (e) => {
-            e.stopPropagation();
-            document.getElementById('infoPopup').classList.toggle('active');
+        new Sortable(linksContainerEl, {
+            animation: 250, 
+            easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+            ghostClass: 'sortable-ghost', 
+            dragClass: 'sortable-drag', 
+            fallbackClass: 'sortable-fallback', 
+            forceFallback: true, 
+            fallbackTolerance: 3, 
+            delay: 50, 
+            delayOnTouchOnly: true,
+            swapThreshold: 0.65,
+            direction: 'vertical'
+        });
+
+        // ==========================================
+        // وظائف الباركود ومشاركة الموقع
+        // ==========================================
+        const profilePic = document.querySelector('.profile-pic');
+        const qrPopup = document.getElementById('qrPopup');
+        const closeQrBtn = document.getElementById('closeQrBtn');
+        const qrImage = document.getElementById('qrImage');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+        profilePic.addEventListener('click', () => {
+            const currentUrl = window.location.href; 
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}&margin=10`;
+            qrPopup.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        const closeQrFunc = () => {
+            qrPopup.classList.remove('active');
+            if (!settingsPanel.classList.contains('active')) {
+                overlay.classList.remove('active');
+            }
         };
+
+        closeQrBtn.onclick = closeQrFunc;
+
+        overlay.onclick = () => {
+            closePanelFunc();
+            closeQrFunc();
+        };
+
+        copyLinkBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const copyText = document.getElementById('copy-text');
+                const t = translations[currentLang];
+                copyText.innerText = t.copied;
+                
+                setTimeout(() => {
+                    copyText.innerText = t.copyLink;
+                }, 2000);
+            });
+        });
     </script>
 </body>
 </html>
