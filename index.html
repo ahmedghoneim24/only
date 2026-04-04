@@ -30,10 +30,11 @@
         * { 
             box-sizing: border-box; 
             margin: 0; padding: 0; 
-            transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
-                        color 0.5s ease, 
-                        border-color 0.5s ease, 
-                        box-shadow 0.5s ease;
+            /* انتقالات عامة أكثر نعومة */
+            transition: background 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                        color 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        border-color 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         html { font-size: var(--base-font-size, 16px); }
@@ -68,17 +69,21 @@
             font-weight: 700; 
             color: #ffffff;
             opacity: 0; 
-            transform: scale(0.9);
+            transform: scale(0.9) translate3d(0,0,0);
             filter: blur(10px);
-            animation: welcomeAnim 2.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            /* حركة ترحيب أطول وأنعم */
+            animation: welcomeAnim 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            will-change: transform, opacity, filter;
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
 
         @keyframes welcomeAnim {
-            0% { opacity: 0; transform: scale(0.8); filter: blur(15px); }
-            30% { opacity: 1; transform: scale(1); filter: blur(0); }
-            75% { opacity: 1; transform: scale(1); filter: blur(0); }
-            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); visibility: hidden; }
+            0% { opacity: 0; transform: scale(0.8) translate3d(0,0,0); filter: blur(15px); }
+            30% { opacity: 1; transform: scale(1) translate3d(0,0,0); filter: blur(0); }
+            75% { opacity: 1; transform: scale(1) translate3d(0,0,0); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.05) translate3d(0,0,0); filter: blur(10px); visibility: hidden; }
         }
 
         .container {
@@ -98,12 +103,15 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 100; opacity: 0;
             box-shadow: 0 4px 15px var(--shadow-color);
-            animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.4s forwards;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, box-shadow;
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
         }
-        .settings-icon i { transition: transform 0.6s ease-in-out; }
-        .settings-icon:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 20px var(--shadow-color); }
-        .settings-icon.rotate i { transform: rotate(360deg); }
+        .settings-icon i { transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; }
+        .settings-icon:hover { transform: translateY(-4px) scale(1.08) translate3d(0,0,0); box-shadow: 0 8px 25px var(--shadow-color); }
+        .settings-icon.rotate i { transform: rotate(360deg) translate3d(0,0,0); }
 
         /* --- أيقونة المشاركة (اليمين) --- */
         .share-icon {
@@ -115,18 +123,22 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 100; opacity: 0;
             box-shadow: 0 4px 15px var(--shadow-color);
-            animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.4s forwards;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, box-shadow;
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
         }
-        .share-icon i { transition: transform 0.6s ease-in-out; }
-        .share-icon:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 20px var(--shadow-color); }
-        .share-icon.rotate i { transform: rotate(-360deg); } 
+        .share-icon i { transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; }
+        .share-icon:hover { transform: translateY(-4px) scale(1.08) translate3d(0,0,0); box-shadow: 0 8px 25px var(--shadow-color); }
+        .share-icon.rotate i { transform: rotate(-360deg) translate3d(0,0,0); } 
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
             z-index: 999; opacity: 0; visibility: hidden;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), backdrop-filter 0.6s ease;
+            will-change: opacity, backdrop-filter;
         }
         .overlay.active { opacity: 1; visibility: visible; }
 
@@ -137,41 +149,49 @@
             padding: 35px 20px 25px 20px; border-radius: 25px;
             border: 1px solid var(--border-color); direction: rtl;
             transform-origin: top left; 
-            transform: scale(0); 
+            transform: scale(0.9) translate3d(0,0,0); 
             opacity: 0;
             visibility: hidden;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
-        .settings-panel.active { transform: scale(1); opacity: 1; visibility: visible; }
+        .settings-panel.active { transform: scale(1) translate3d(0,0,0); opacity: 1; visibility: visible; }
         html[dir="ltr"] .settings-panel { direction: ltr; transform-origin: top left; left: 20px; }
 
         .profile-pic {
             width: 90px; height: 90px; border-radius: 50%;
-            background-image: url('Https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
+            background-image: url('https://i.supaimg.com/d73ac461-53ca-466f-bc1e-61f2abd83dfe/01659496-a3b9-4e9f-9a68-1da631d42a99.jpg');
             background-size: cover; background-position: center;
             border: 3px solid var(--border-color);
             box-shadow: 0 10px 25px var(--shadow-color); margin-bottom: 12px;
             opacity: 0;
-            animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards, 
-                       gentlePulse 4s ease-in-out 3.1s infinite;
+            animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards, 
+                       gentlePulse 5s ease-in-out 3.3s infinite;
             position: relative; 
+            will-change: transform, box-shadow;
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
         }
 
         @keyframes gentlePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px var(--shadow-color); opacity: 1; }
-            50% { transform: scale(1.04); box-shadow: 0 15px 35px var(--shadow-color); opacity: 1; }
+            0%, 100% { transform: scale(1) translate3d(0,0,0); box-shadow: 0 10px 25px var(--shadow-color); opacity: 1; }
+            50% { transform: scale(1.03) translate3d(0,0,0); box-shadow: 0 18px 35px var(--shadow-color); opacity: 1; }
         }
 
         .header-name-wrapper {
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px; opacity: 0; transform: translateY(15px);
-            animation: wrapperSlideUp 1s ease-out 2.7s forwards, floatName 3s ease-in-out infinite 3.7s;
+            margin-bottom: 20px; opacity: 0; transform: translateY(15px) translate3d(0,0,0);
+            animation: wrapperSlideUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 2.7s forwards, floatName 4s ease-in-out infinite 3.9s;
             direction: ltr; gap: 6px;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
-        @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes wrapperSlideUp { to { opacity: 1; transform: translateY(0) translate3d(0,0,0); } }
         @keyframes floatName {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            0%, 100% { transform: translateY(0) translate3d(0,0,0); }
+            50% { transform: translateY(-5px) translate3d(0,0,0); }
         }
 
         .header-name { font-family: 'Dancing Script', cursive; font-size: 1.9rem; color: #B8860B; }
@@ -180,8 +200,9 @@
         .main-content {
             width: 100%; max-width: 340px;
             display: flex; flex-direction: column; align-items: center;
-            opacity: 0; animation: fadeInAll 0.5s ease-in 2.4s forwards;
+            opacity: 0; animation: fadeInAll 0.8s cubic-bezier(0.25, 1, 0.5, 1) 2.4s forwards;
             margin-bottom: 60px;
+            will-change: opacity;
         }
         @keyframes fadeInAll { to { opacity: 1; } }
 
@@ -201,8 +222,8 @@
             align-items: center;
             cursor: grab;
             -webkit-user-drag: none;
-            will-change: transform, box-shadow;
-            transform: translateZ(0);
+            will-change: transform, opacity;
+            transform: translate3d(0,0,0);
             backface-visibility: hidden;
             perspective: 1000px;
             border-radius: 18px;
@@ -218,31 +239,37 @@
             border: 1px solid var(--border-color);
             opacity: 0; width: 100%;
             box-shadow: 0 4px 15px var(--shadow-color);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                        background-color 0.6s ease;
+            will-change: transform, box-shadow, background-color;
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
         }
 
         .btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 25px var(--shadow-color);
+            transform: translateY(-5px) scale(1.02) translate3d(0,0,0);
+            box-shadow: 0 10px 28px var(--shadow-color);
         }
 
         .btn i {
             filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.6s ease;
+            will-change: transform;
         }
-        .btn:hover i { transform: scale(1.15); }
+        .btn:hover i { transform: scale(1.18) translate3d(0,0,0); }
 
-        /* --- حركة التموج الجديدة للأزرار --- */
+        /* --- حركة التموج ( الموجة ) بنعومة شديدة --- */
         @keyframes buttonWave {
-            0% { transform: translateY(0); }
-            30% { transform: translateY(-12px) scale(1.02); box-shadow: 0 10px 25px var(--shadow-color); }
-            60% { transform: translateY(5px) scale(0.98); box-shadow: 0 2px 8px var(--shadow-color); }
-            80% { transform: translateY(-3px) scale(1.01); }
-            100% { transform: translateY(0) scale(1); }
+            0% { transform: translateY(0) translate3d(0,0,0); }
+            30% { transform: translateY(-12px) scale(1.02) translate3d(0,0,0); box-shadow: 0 12px 30px var(--shadow-color); }
+            60% { transform: translateY(4px) scale(0.98) translate3d(0,0,0); box-shadow: 0 2px 8px var(--shadow-color); }
+            80% { transform: translateY(-2px) scale(1.01) translate3d(0,0,0); }
+            100% { transform: translateY(0) scale(1) translate3d(0,0,0); }
         }
 
         .btn.wave-active {
-            animation: buttonWave 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+            animation: buttonWave 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
         }
         /* ---------------------------------- */
 
@@ -252,37 +279,40 @@
             backdrop-filter: blur(5px); font-weight: 600; display: flex;
             align-items: center; justify-content: center; max-height: 0;
             opacity: 0; margin-top: 0; padding: 0 15px; overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
             width: 100%; box-sizing: border-box;
+            will-change: max-height, opacity, margin-top, padding;
+            transform: translate3d(0,0,0);
         }
         .redirect-timer.active { max-height: 50px; opacity: 1; margin-top: 8px; padding: 8px 15px; }
 
         .cancel-btn {
             background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d;
             border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; cursor: pointer;
-            transition: all 0.3s ease; font-family: 'Cairo', sans-serif; font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); font-family: 'Cairo', sans-serif; font-weight: 700;
+            will-change: transform;
         }
-        .cancel-btn:hover { background: #ff4d4d; color: #fff; transform: scale(1.05); box-shadow: 0 2px 10px rgba(255, 77, 77, 0.3); }
+        .cancel-btn:hover { background: #ff4d4d; color: #fff; transform: scale(1.08) translate3d(0,0,0); box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
 
-        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.8s forwards; }
-        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.95s forwards; }
-        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.1s forwards; }
-        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.25s forwards; }
-        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.4s forwards; }
+        .main-content .btn-wrapper:nth-child(1) .btn { animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.8s forwards; }
+        .main-content .btn-wrapper:nth-child(2) .btn { animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.95s forwards; }
+        .main-content .btn-wrapper:nth-child(3) .btn { animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 3.1s forwards; }
+        .main-content .btn-wrapper:nth-child(4) .btn { animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 3.25s forwards; }
+        .main-content .btn-wrapper:nth-child(5) .btn { animation: popGlass 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 3.4s forwards; }
 
-        @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes popGlass { 0% { opacity: 0; transform: scale(1.1) translate3d(0,0,0); } 100% { opacity: 1; transform: scale(1) translate3d(0,0,0); } }
 
         .sortable-fallback.sortable-drag {
             opacity: 1 !important;
-            transform: scale(0.9) translateZ(0) !important; 
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9) !important;
+            transform: scale(0.9) translate3d(0,0,0) !important; 
+            box-shadow: 0 35px 65px rgba(0, 0, 0, 0.9) !important;
             z-index: 9999 !important;
             transition: none !important; 
             cursor: grabbing !important;
         }
 
         body.light-mode .sortable-fallback.sortable-drag { 
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important; 
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.3) !important; 
         }
 
         .sortable-fallback:not(.sortable-drag) {
@@ -293,19 +323,19 @@
 
         .sortable-ghost {
             opacity: 1 !important;
-            transform: scale(1) translateZ(0) !important;
+            transform: scale(1) translate3d(0,0,0) !important;
         }
         
         .sortable-ghost .btn {
             opacity: 0.3 !important;
-            transform: scale(0.95) !important;
+            transform: scale(0.95) translate3d(0,0,0) !important;
             border: 1px dashed rgba(255, 255, 255, 0.4) !important;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5) !important;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5) !important;
         }
 
         body.light-mode .sortable-ghost .btn {
             border: 1px dashed rgba(0, 0, 0, 0.4) !important;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1) !important;
         }
 
         .settings-counter-wrapper { margin-top: 15px; position: relative; display: flex; flex-direction: column; align-items: center; }
@@ -314,22 +344,27 @@
             font-weight: 700; background: var(--btn-bg); backdrop-filter: blur(10px);
             padding: 5px 12px; border-radius: 12px; border: 1px solid var(--border-color);
             cursor: pointer; display: inline-flex; align-items: center; gap: 6px; z-index: 2;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
         }
+        .glass-counter-box:hover { transform: scale(1.05) translate3d(0,0,0); }
         .info-popup {
-            position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-10px);
+            position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-15px) translate3d(0,0,0);
             width: max-content; background: var(--panel-bg); backdrop-filter: blur(20px);
             border: 1px solid var(--border-color); border-radius: 10px; padding: 6px 10px;
             display: flex; align-items: center; gap: 5px; box-shadow: 0 5px 15px var(--shadow-color);
-            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1001;
+            opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1001;
+            will-change: transform, opacity;
         }
-        .info-popup.active { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+        .info-popup.active { transform: translateX(-50%) translateY(0) translate3d(0,0,0); opacity: 1; visibility: visible; }
         .info-icon { color: #FFD700; font-size: 0.8rem; }
         .info-text { font-size: 0.65rem; font-weight: 600; color: var(--text-color); }
 
         .copyright-bottom { 
-            position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); 
+            position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%) translate3d(0,0,0); 
             font-family: 'Cairo', sans-serif; font-size: 7.5px; color: #8e8e8e; 
-            opacity: 0; white-space: nowrap; animation: fadeInAll 0.8s ease-in 3.6s forwards; letter-spacing: 0.5px;
+            opacity: 0; white-space: nowrap; animation: fadeInAll 1s cubic-bezier(0.25, 1, 0.5, 1) 3.6s forwards; letter-spacing: 0.5px;
+            will-change: opacity;
         }
         .fa-tiktok { color: #ffffff; text-shadow: -1.5px -1.5px 0 #25F4EE, 1.5px 1.5px 0 #FE2C55; }
         body.light-mode .fa-tiktok { color: #000000; }
@@ -339,34 +374,40 @@
             display: flex; align-items: center; justify-content: space-between;
             background: var(--btn-bg); padding: 12px 15px; border-radius: 15px;
             cursor: pointer; border: 1px solid var(--border-color); margin-top: 15px;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        .acc-toggle:hover { background: rgba(255, 255, 255, 0.15); }
         .acc-box {
             background: rgba(255, 255, 255, 0.05); border-radius: 15px;
             border: 1px dashed var(--border-color); max-height: 0; overflow: hidden;
-            transition: all 0.4s ease; margin-top: 5px; opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); margin-top: 5px; opacity: 0;
+            will-change: max-height, opacity, padding;
         }
         .acc-box.open { padding: 12px; max-height: 200px; opacity: 1; }
         .acc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .acc-btn {
             background: var(--btn-bg); border: 1px solid var(--border-color);
             color: var(--text-color); padding: 5px 12px; border-radius: 10px;
-            cursor: pointer; font-size: 0.75rem;
+            cursor: pointer; font-size: 0.75rem; transition: all 0.3s ease;
+            will-change: transform;
         }
+        .acc-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1) translate3d(0,0,0); }
 
         .toggle-switch {
             width: 44px; height: 24px; background: rgba(255, 255, 255, 0.15);
             border-radius: 15px; position: relative; cursor: pointer;
             border: 1px solid var(--border-color); display: flex; align-items: center;
-            transition: background 0.4s ease, border-color 0.4s ease;
+            transition: background 0.5s ease, border-color 0.5s ease;
         }
         .toggle-switch.active { background: #4CAF50; border-color: #4CAF50; }
         .toggle-knob {
             width: 18px; height: 18px; background: #ffffff; border-radius: 50%;
-            position: absolute; right: 3px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute; right: 3px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
         }
         html[dir="ltr"] .toggle-knob { right: auto; left: 3px; }
-        .toggle-switch.active .toggle-knob { transform: translateX(-20px); }
-        html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px); }
+        .toggle-switch.active .toggle-knob { transform: translateX(-20px) translate3d(0,0,0); }
+        html[dir="ltr"] .toggle-switch.active .toggle-knob { transform: translateX(20px) translate3d(0,0,0); }
 
         body.high-contrast-text { --btn-bg: #000 !important; --panel-bg: #000 !important; --border-color: #fff !important; --text-color: #fff !important; }
         body.high-contrast-text * { font-weight: 900 !important; text-shadow: none !important; }
@@ -384,7 +425,9 @@
             display: flex; align-items: center; justify-content: space-between;
             background: var(--btn-bg); padding: 10px 15px; border-radius: 15px;
             cursor: pointer; border: 1px solid var(--border-color); margin-top: 10px;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        .toggle-row-btn:hover { background: rgba(255, 255, 255, 0.15); }
         .custom-switch {
             position: relative; width: 60px; height: 28px; background: rgba(0,0,0,0.3);
             border-radius: 20px; display: flex; align-items: center; justify-content: space-between;
@@ -393,19 +436,19 @@
         body.light-mode .custom-switch { background: rgba(0,0,0,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
         .custom-slider {
             position: absolute; top: 2px; left: 2px; width: 28px; height: 22px;
-            border-radius: 15px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
-            z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 15px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.6s ease;
+            z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2); will-change: transform;
         }
         .lang-slider { background: #4db8ff; }
-        .lang-option { font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%; text-align: center; transition: color 0.4s ease; color: #888; }
+        .lang-option { font-size: 0.65rem; font-weight: 800; z-index: 2; width: 50%; text-align: center; transition: color 0.5s ease; color: #888; }
         .lang-option.active { color: #ffffff; }
         body.light-mode .lang-option { color: #888; }
         body.light-mode .lang-option.active { color: #ffffff; }
 
         .theme-switch { padding: 0 8px; }
         .theme-slider { background: #FFD700; }
-        body.light-mode .theme-slider { background: #555; transform: translateX(28px); }
-        .theme-icon { font-size: 0.75rem; z-index: 2; transition: color 0.4s ease; }
+        body.light-mode .theme-slider { background: #555; transform: translateX(28px) translate3d(0,0,0); }
+        .theme-icon { font-size: 0.75rem; z-index: 2; transition: color 0.5s ease; }
         #icon-sun { color: #fff; } #icon-moon { color: #888; }
         body.light-mode #icon-sun { color: #888; }
         body.light-mode #icon-moon { color: #fff; }
@@ -413,17 +456,20 @@
         /* --- أكواد نافذة الباركود --- */
         .qr-popup {
             position: fixed; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%, -50%) scale(0.9) translate3d(0,0,0);
             background: var(--panel-bg); backdrop-filter: blur(25px);
             z-index: 1002; box-shadow: 0 10px 40px var(--shadow-color);
             padding: 30px; border-radius: 25px; border: 1px solid var(--border-color);
             display: flex; flex-direction: column; align-items: center; gap: 15px;
             opacity: 0; visibility: hidden; 
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
             width: 280px; text-align: center;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
 
-        .qr-popup.active { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
+        .qr-popup.active { transform: translate(-50%, -50%) scale(1) translate3d(0,0,0); opacity: 1; visibility: visible; }
 
         .qr-code-container { 
             background: #ffffff; padding: 15px; border-radius: 20px; 
@@ -434,9 +480,10 @@
 
         .close-qr { 
             position: absolute; top: 15px; left: 15px; 
-            cursor: pointer; color: var(--text-color); opacity: 0.6; transition: 0.3s;
+            cursor: pointer; color: var(--text-color); opacity: 0.6; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
         }
-        .close-qr:hover { opacity: 1; transform: scale(1.1); }
+        .close-qr:hover { opacity: 1; transform: scale(1.2) translate3d(0,0,0); }
         html[dir="ltr"] .close-qr { left: auto; right: 15px; }
 
         .copy-link-btn {
@@ -444,9 +491,10 @@
             border: 1px solid var(--border-color); padding: 10px 20px; 
             border-radius: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; 
             font-weight: bold; display: flex; gap: 8px; align-items: center; 
-            transition: all 0.3s ease; width: 100%; justify-content: center;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; justify-content: center;
+            will-change: transform;
         }
-        .copy-link-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .copy-link-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px) scale(1.02) translate3d(0,0,0); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         body.light-mode .copy-link-btn:hover { background: rgba(0, 0, 0, 0.1); }
     </style>
 </head>
@@ -478,7 +526,7 @@
     </div>
 
     <div class="settings-panel" id="settingsPanel">
-        <i class="fas fa-times close-panel" id="closeBtn" style="position: absolute; top: 15px; left: 15px; cursor: pointer; opacity: 0.5;"></i>
+        <i class="fas fa-times close-panel" id="closeBtn" style="position: absolute; top: 15px; left: 15px; cursor: pointer; opacity: 0.5; transition: all 0.4s ease;"></i>
         
         <div id="modeToggle" class="toggle-row-btn">
             <span id="modeText" style="font-size: 0.85rem; font-weight: 600;">الوضع الفاتح</span>
@@ -596,26 +644,27 @@
                 totalVisits = baseVisits + parseInt(localVisits);
             });
 
-        // --- دالة تشغيل حركة التموج (الموجة) للأزرار ---
+        // --- دالة تشغيل حركة التموج (الموجة) معدلة بالـ requestAnimationFrame لسلاسة خرافية ---
         function triggerWaveAnimation() {
             const buttons = document.querySelectorAll('.links-container .btn');
             buttons.forEach((btn, index) => {
-                // منع إعادة تشغيل الأنيميشن الأولي ذو التأخير الزمني الطويل وتثبيت الشفافية
                 btn.style.animation = 'none';
                 btn.style.opacity = '1';
 
                 btn.classList.remove('wave-active');
-                void btn.offsetWidth; // إعادة تهيئة الحركة
+                void btn.offsetWidth; 
                 
-                // إضافة الحركة بتأخير زمني لتكوين شكل الموجة
                 setTimeout(() => {
-                    btn.classList.add('wave-active');
-                }, index * 100); 
+                    window.requestAnimationFrame(() => {
+                        btn.classList.add('wave-active');
+                    });
+                }, index * 120); 
                 
-                // إزالة الكلاس بعد انتهاء الحركة لتعود الأزرار لطبيعتها
                 setTimeout(() => {
-                    btn.classList.remove('wave-active');
-                }, (index * 100) + 700);
+                    window.requestAnimationFrame(() => {
+                        btn.classList.remove('wave-active');
+                    });
+                }, (index * 120) + 850); 
             });
         }
         // ------------------------------------------------
@@ -673,7 +722,7 @@
                             setTimeout(() => {
                                 timerDisplay.classList.remove('active');
                                 isRedirecting = false;
-                            }, 500);
+                            }, 600);
                         }, 500);
                     }
                 }, 1000);
@@ -701,11 +750,15 @@
             const langEn = document.getElementById('lang-en');
             
             if (currentLang === 'ar') {
-                langSlider.style.transform = 'translateX(0)';
-                langAr.classList.add('active'); langEn.classList.remove('active');
+                window.requestAnimationFrame(() => {
+                    langSlider.style.transform = 'translateX(0) translate3d(0,0,0)';
+                    langAr.classList.add('active'); langEn.classList.remove('active');
+                });
             } else {
-                langSlider.style.transform = 'translateX(28px)';
-                langEn.classList.add('active'); langAr.classList.remove('active');
+                window.requestAnimationFrame(() => {
+                    langSlider.style.transform = 'translateX(28px) translate3d(0,0,0)';
+                    langEn.classList.add('active'); langAr.classList.remove('active');
+                });
             }
         }
 
@@ -715,43 +768,51 @@
         const closeBtn = document.getElementById('closeBtn');
 
         settingsBtn.onclick = () => { 
-            settingsBtn.classList.add('rotate');
-            settingsPanel.classList.add('active'); 
-            overlay.classList.add('active'); 
-            triggerWaveAnimation(); // تشغيل حركة التموج هنا
+            window.requestAnimationFrame(() => {
+                settingsBtn.classList.add('rotate');
+                settingsPanel.classList.add('active'); 
+                overlay.classList.add('active'); 
+            });
+            triggerWaveAnimation(); 
             setTimeout(() => { 
                 animateCounter('web-counter', 100, 1500); 
                 animateCounter('visit-counter', totalVisits, 2000);
-            }, 500);
+            }, 400);
         };
 
         const closePanelFunc = () => {
             const isActive = settingsPanel.classList.contains('active');
-            settingsBtn.classList.remove('rotate');
-            settingsPanel.classList.remove('active'); 
-            if (!qrPopup.classList.contains('active')) {
-                overlay.classList.remove('active'); 
-            }
+            window.requestAnimationFrame(() => {
+                settingsBtn.classList.remove('rotate');
+                settingsPanel.classList.remove('active'); 
+                if (!qrPopup.classList.contains('active')) {
+                    overlay.classList.remove('active'); 
+                }
+            });
             if (isActive) {
-                triggerWaveAnimation(); // تشغيل الحركة عند الإغلاق
+                triggerWaveAnimation(); 
             }
         };
 
         closeBtn.onclick = closePanelFunc;
 
+        // --- دالة العداد تم ترقيتها لاستخدام requestAnimationFrame لتعمل بسلاسة الشاشة الأصلية 120Hz ---
         function animateCounter(id, target, duration) {
             const el = document.getElementById(id);
-            let start = 0;
-            const step = target / (duration / 16);
-            const timer = setInterval(() => {
-                start += step;
-                if (start >= target) {
-                    el.innerText = Math.floor(target).toLocaleString();
-                    clearInterval(timer);
+            let startTime = null;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                // تأثير سلاسة (Ease Out Quart)
+                const easeProgress = 1 - Math.pow(1 - progress, 4);
+                el.innerText = Math.floor(easeProgress * target).toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
                 } else {
-                    el.innerText = Math.floor(start).toLocaleString();
+                    el.innerText = Math.floor(target).toLocaleString();
                 }
-            }, 16);
+            }
+            window.requestAnimationFrame(step);
         }
 
         document.getElementById('modeToggle').onclick = () => { document.body.classList.toggle('light-mode'); updateLanguage(); };
@@ -771,8 +832,8 @@
         const linksContainerEl = document.querySelector('.links-container');
         
         new Sortable(linksContainerEl, {
-            animation: 250, 
-            easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+            animation: 350, // تم تسريعها قليلاً لتناسب السلاسة الجديدة
+            easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", 
             ghostClass: 'sortable-ghost', 
             dragClass: 'sortable-drag', 
             fallbackClass: 'sortable-fallback', 
@@ -785,7 +846,7 @@
         });
 
         // ==========================================
-        // وظائف الباركود ومشاركة الموقع مع الالتفاف
+        // وظائف الباركود ومشاركة الموقع
         // ==========================================
         const shareBtn = document.getElementById('shareBtn');
         const qrPopup = document.getElementById('qrPopup');
@@ -794,23 +855,27 @@
         const copyLinkBtn = document.getElementById('copyLinkBtn');
 
         shareBtn.addEventListener('click', () => {
-            shareBtn.classList.add('rotate'); 
             const currentUrl = window.location.href; 
             qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}&margin=10`;
-            qrPopup.classList.add('active');
-            overlay.classList.add('active');
-            triggerWaveAnimation(); // تشغيل حركة التموج هنا أيضاً
+            window.requestAnimationFrame(() => {
+                shareBtn.classList.add('rotate'); 
+                qrPopup.classList.add('active');
+                overlay.classList.add('active');
+            });
+            triggerWaveAnimation();
         });
 
         const closeQrFunc = () => {
             const isActive = qrPopup.classList.contains('active');
-            shareBtn.classList.remove('rotate'); 
-            qrPopup.classList.remove('active');
-            if (!settingsPanel.classList.contains('active')) {
-                overlay.classList.remove('active');
-            }
+            window.requestAnimationFrame(() => {
+                shareBtn.classList.remove('rotate'); 
+                qrPopup.classList.remove('active');
+                if (!settingsPanel.classList.contains('active')) {
+                    overlay.classList.remove('active');
+                }
+            });
             if (isActive) {
-                triggerWaveAnimation(); // تشغيل الحركة عند الإغلاق
+                triggerWaveAnimation(); 
             }
         };
 
@@ -831,6 +896,13 @@
                     copyText.innerText = t.copyLink;
                 }, 2000);
             });
+        });
+        
+        document.getElementById('closeBtn').addEventListener('mouseover', function() {
+            this.style.opacity = '1';
+        });
+        document.getElementById('closeBtn').addEventListener('mouseout', function() {
+            this.style.opacity = '0.5';
         });
     </script>
 </body>
