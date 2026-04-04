@@ -669,7 +669,7 @@
                         timerText.innerHTML = t.redirectingNow;
                         
                         setTimeout(() => {
-                            window.open(targetUrl, '_blank');
+                            window.location.href = targetUrl;
                             setTimeout(() => {
                                 timerDisplay.classList.remove('active');
                                 isRedirecting = false;
