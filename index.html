@@ -112,7 +112,7 @@
             padding-bottom: 50px; 
         }
 
-        /* --- زر الإعدادات (تم تحسين السلاسة والاستجابة) --- */
+        /* --- زر الإعدادات --- */
         .settings-icon {
             position: fixed; top: 20px; left: 20px;
             color: var(--text-color);
@@ -137,7 +137,6 @@
             box-shadow: 0 6px 20px var(--shadow-color); 
         }
         
-        /* تأثير النقر السريع للسلاسة */
         .settings-icon:active { 
             transform: scale(0.92) translate3d(0,0,0) !important; 
             transition: transform 0.1s ease !important;
@@ -246,6 +245,21 @@
         .btn i { filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6)); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.6s ease; will-change: transform; }
         .btn:hover i { transform: scale(1.18) translate3d(0,0,0); }
 
+        /* ستايل زر الإعدادات الجديد لإنشاء الملف */
+        .settings-btn {
+            opacity: 1 !important;
+            transform: translate3d(0,0,0) !important;
+            animation: none !important;
+            padding: 10px 15px !important;
+            border-radius: 15px !important;
+            gap: 10px !important;
+        }
+        .settings-btn:hover {
+            transform: translateY(-3px) scale(1.02) translate3d(0,0,0) !important;
+            box-shadow: 0 6px 18px rgba(77, 184, 255, 0.25) !important;
+            border-color: #4db8ff !important;
+        }
+
         @keyframes buttonWave {
             0% { transform: translateY(0) translate3d(0,0,0); }
             30% { transform: translateY(-12px) scale(1.02) translate3d(0,0,0); box-shadow: 0 12px 30px var(--shadow-color); }
@@ -328,24 +342,22 @@
 
         /* --- تصميم زر المشاركة الداخلي الجديد --- */
         .inner-share-btn {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(184,134,11,0.05) 100%);
             padding: 12px 15px; border-radius: 15px; cursor: pointer;
-            border: 1px solid var(--border-color); margin-top: 15px;
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); font-weight: 700; font-size: 0.85rem;
-            color: var(--text-color); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3); margin-top: 15px;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            color: var(--text-color); box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         .inner-share-btn:hover {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
-            transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(184,134,11,0.1) 100%);
+            transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            border-color: rgba(255, 215, 0, 0.6);
         }
-        .inner-share-btn i { font-size: 1.2rem; transition: transform 0.5s ease; }
-        .inner-share-btn i.fa-qrcode { color: #FFD700; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6)); }
-        .inner-share-btn i.fa-copy { color: #4db8ff; filter: drop-shadow(0 0 6px rgba(77, 184, 255, 0.6)); font-size: 1.1rem; }
+        .inner-share-btn i.fa-qrcode { font-size: 1.1rem; color: #FFD700; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6)); transition: transform 0.5s ease; }
         .inner-share-btn:hover i.fa-qrcode { transform: rotate(15deg) scale(1.1); }
-        .inner-share-btn:hover i.fa-copy { transform: rotate(-15deg) scale(1.1); }
+        body.light-mode .inner-share-btn { background: linear-gradient(135deg, rgba(255,215,0,0.3) 0%, rgba(184,134,11,0.1) 100%); }
         body.light-mode .inner-share-btn i.fa-qrcode { color: #B8860B; filter: none; }
-        body.light-mode .inner-share-btn i.fa-copy { color: #0077cc; filter: none; }
 
         /* --- تصميم أزرار التبديل لتبدو مثل أجهزة iOS --- */
         .toggle-switch {
@@ -358,12 +370,12 @@
             -webkit-tap-highlight-color: transparent;
             box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
         }
-        .toggle-switch.active { background-color: #34C759; /* لون الآيفون الأخضر */ }
+        .toggle-switch.active { background-color: #34C759; }
         .toggle-knob {
             width: 27px; height: 27px; background: #ffffff; border-radius: 50%; 
             position: absolute; right: 2px; top: 2px;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2), 0 3px 1px rgba(0,0,0,0.1);
-            transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05); /* ارتداد ناعم ومطابق لآبل */
+            transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05); 
             will-change: transform;
         }
         html[dir="ltr"] .toggle-knob { right: auto; left: 2px; }
@@ -417,7 +429,7 @@
         /* --- أكواد نافذة الباركود --- */
         .qr-popup {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9) translate3d(0,0,0);
-            background: var(--panel-bg); backdrop-filter: blur(25px); z-index: 1006; /* يجب أن يكون أعلى من القائمة */
+            background: var(--panel-bg); backdrop-filter: blur(25px); z-index: 1006; 
             box-shadow: 0 10px 40px var(--shadow-color); padding: 30px; border-radius: 25px; border: 1px solid var(--border-color);
             display: flex; flex-direction: column; align-items: center; gap: 15px; opacity: 0; visibility: hidden; 
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); width: 280px; text-align: center;
@@ -426,7 +438,6 @@
         .qr-popup.active { transform: translate(-50%, -50%) scale(1) translate3d(0,0,0); opacity: 1; visibility: visible; }
 
         .qr-code-container { background: #ffffff; padding: 15px; border-radius: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); }
-        /* التعديل هنا ليدعم الـ SVG والـ Canvas */
         .qr-code-container canvas, 
         .qr-code-container svg { width: 180px !important; height: 180px !important; display: block; border-radius: 10px; }
 
@@ -489,6 +500,14 @@
             </div>
         </div>
 
+        <div style="width: 100%; margin-top: 15px; display: flex; flex-direction: column; align-items: center;">
+            <a href="https://webs1t9.github.io/Website-/" class="btn settings-btn" style="border: 1px solid rgba(77, 184, 255, 0.4); background: linear-gradient(135deg, rgba(77, 184, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);">
+                <i class="fas fa-magic" style="color: #4db8ff;"></i> 
+                <span id="create-profile-text" style="font-size: 0.82rem; font-weight: 700;">انشئ ملفك الشخصي</span>
+            </a>
+            <div class="redirect-timer"></div>
+        </div>
+
         <div style="margin-top: 15px; font-size: 0.75rem; background: var(--btn-bg); padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; justify-content: center;">
             <span id="web-contrib">مشارك في +<span id="web-counter">0</span> Web</span>
             <i class="fas fa-check-circle mini-verify"></i>
@@ -527,9 +546,8 @@
         </div>
 
         <div class="inner-share-btn" id="innerShareBtn">
+            <span id="share-panel-text" style="font-size: 0.75rem; font-weight: 700;">مشاركة الموقع</span>
             <i class="fas fa-qrcode"></i>
-            <span id="share-panel-text">مشاركة الموقع</span>
-            <i class="fas fa-copy"></i>
         </div>
 
         <div class="settings-counter-wrapper">
@@ -585,8 +603,8 @@
 
     <script>
         const translations = {
-            ar: { welcome: "مرحباً", modeLight: "الوضع الفاتح", modeDark: "الوضع الداكن", languageLabel: "اللغة", webContrib: "مشارك في +", accTitle: "الوصول", fontSize: "حجم الخط", defaultFont: "الافتراضي", contrast: "تباين عالي", invertColors: "عكس اللون", visitorTitle: "عدد زوار الموقع", copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم", redirect: "سيتم انتقالك خلال", redirectingNow: "جاري الانتقال...", cancel: "إلغاء", shareSite: "مشاركة الموقع الخاص بي", copyLink: "نسخ الرابط", copied: "تم النسخ!", sharePanelText: "مشاركة الموقع" },
-            en: { welcome: "Welcome", modeLight: "Light Mode", modeDark: "Dark Mode", languageLabel: "Language", webContrib: "Participant in +", accTitle: "Accessibility", fontSize: "Font Size", defaultFont: "Default", contrast: "High Contrast", invertColors: "Invert Colors", visitorTitle: "Visitor Count", copyright: "All Rights Reserved to Developer Ahmed Ghoneim", redirect: "Redirecting in", redirectingNow: "Redirecting...", cancel: "Cancel", shareSite: "Share my website", copyLink: "Copy Link", copied: "Copied!", sharePanelText: "Share Website" }
+            ar: { welcome: "مرحباً", modeLight: "الوضع الفاتح", modeDark: "الوضع الداكن", languageLabel: "اللغة", createProfile: "انشئ ملفك الشخصي", webContrib: "مشارك في +", accTitle: "الوصول", fontSize: "حجم الخط", defaultFont: "الافتراضي", contrast: "تباين عالي", invertColors: "عكس اللون", visitorTitle: "عدد زوار الموقع", copyright: "جميع الحقوق محفوظة للمطور أحمد غنيم", redirect: "سيتم انتقالك خلال", redirectingNow: "جاري الانتقال...", cancel: "إلغاء", shareSite: "مشاركة الموقع الخاص بي", copyLink: "نسخ الرابط", copied: "تم النسخ!", sharePanelText: "مشاركة الموقع" },
+            en: { welcome: "Welcome", modeLight: "Light Mode", modeDark: "Dark Mode", languageLabel: "Language", createProfile: "Create your profile", webContrib: "Participant in +", accTitle: "Accessibility", fontSize: "Font Size", defaultFont: "Default", contrast: "High Contrast", invertColors: "Invert Colors", visitorTitle: "Visitor Count", copyright: "All Rights Reserved to Developer Ahmed Ghoneim", redirect: "Redirecting in", redirectingNow: "Redirecting...", cancel: "Cancel", shareSite: "Share my website", copyLink: "Copy Link", copied: "Copied!", sharePanelText: "Share Website" }
         };
 
         let currentLang = 'ar';
@@ -686,6 +704,7 @@
             document.getElementById('welcome-msg').innerText = t.welcome;
             document.getElementById('modeText').innerText = document.body.classList.contains('light-mode') ? t.modeDark : t.modeLight;
             document.getElementById('lang-label-text').innerText = t.languageLabel;
+            document.getElementById('create-profile-text').innerText = t.createProfile;
             document.getElementById('web-contrib').innerHTML = `${t.webContrib}<span id="web-counter">100</span> Web`;
             document.getElementById('acc-title').innerText = t.accTitle;
             document.getElementById('font-size-label').innerText = t.fontSize;
@@ -797,7 +816,7 @@
         });
 
         // ==========================================
-        // وظائف الباركود ومشاركة الموقع (تم التعديل لـ SVG لتجنب مشكلة الـ CORS والمربع الأبيض)
+        // وظائف الباركود ومشاركة الموقع
         // ==========================================
         const innerShareBtn = document.getElementById('innerShareBtn');
         const closeQrBtn = document.getElementById('closeQrBtn');
@@ -811,7 +830,7 @@
             // تفريغ الحاوية حتى لا تتكرر الأكواد عند الضغط أكثر من مرة
             qrCodeContainer.innerHTML = '';
             
-            // إعداد وإنشاء الباركود بشكله الجديد الدائري مع الصورة (تم تغيير النوع إلى svg)
+            // إعداد وإنشاء الباركود بشكله الجديد الدائري مع الصورة
             const qrCode = new QRCodeStyling({
                 width: 180,
                 height: 180,
@@ -834,7 +853,6 @@
                     color: "#ffffff",
                 },
                 imageOptions: {
-                    // تمت إزالة crossOrigin لتجنب مشاكل سياسة المتصفح مع الصور الخارجية
                     margin: 5,
                     imageSize: 0.4
                 }
